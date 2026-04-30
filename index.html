@@ -189,7 +189,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
   <div class="bnav">
     <button class="nb on" onclick="nav('home',this)"><span class="nb-ico">&#127968;</span><span class="nb-lbl">Beranda</span></button>
-    <button class="nb" id="nb-mine" onclick="nav('mine',this)"><span class="nb-ico">&#9989;</span><span class="nb-lbl">Seksi Saya</span></button>
+    <button class="nb" id="nb-mine" onclick="nav('mine',this)"><span class="nb-ico">&#9989;</span><span class="nb-lbl">Seksi Saya<span id="nb-mine-badge" style="display:none;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px;color:#fff"></span></span></button>
     <button class="nb" onclick="nav('all',this)"><span class="nb-ico">&#128101;</span><span class="nb-lbl">Semua Seksi</span></button>
     <button class="nb" onclick="nav('chat',this)"><span class="nb-ico">&#128172;</span><span class="nb-lbl">Chat<span id="cbadge" style="display:none;background:#e24b4a;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px"></span></span></button>
     <button class="nb" id="nb-admin" style="display:none" onclick="nav('admin',this)"><span class="nb-ico">&#128274;</span><span class="nb-lbl">Ketua</span></button>
@@ -214,6 +214,30 @@ const FIREBASE_CONFIG = {
 // ── ADMIN CONFIG ─────────────────────────────────────────────
 const ADMIN_PIN = "1234"; // Ganti PIN ini sesuai kebutuhan
 const ADMIN_ID  = "ketua_pelaksana";
+
+// ── DEADLINE PER MINGGU ──────────────────────────────────────
+const WEEK_DEADLINES = [
+  {week:0, label:'Minggu 1', deadline: new Date('2026-05-03T23:59:59')},
+  {week:1, label:'Minggu 2', deadline: new Date('2026-05-10T23:59:59')},
+  {week:2, label:'Minggu 3', deadline: new Date('2026-05-17T23:59:59')},
+  {week:3, label:'Minggu 4', deadline: new Date('2026-05-24T23:59:59')},
+  {week:4, label:'Minggu 5', deadline: new Date('2026-05-31T23:59:59')},
+  {week:5, label:'Minggu 6', deadline: new Date('2026-06-07T23:59:59')},
+];
+// Task index 0-5 = Minggu 1, dst (6 task per minggu per seksi)
+function getTaskDeadline(taskIdx){ return WEEK_DEADLINES[Math.floor(taskIdx/1)]?.deadline||null; }
+// Setiap seksi punya 6 task, masing-masing masuk ke minggu berdasarkan index
+// task 0 = week 0, task 1 = week 1, dst
+function getTaskWeek(taskIdx){ return WEEK_DEADLINES[taskIdx] || null; }
+function isOverdue(taskIdx){ 
+  const w=getTaskWeek(taskIdx);
+  return w && new Date() > w.deadline;
+}
+function daysUntilDeadline(taskIdx){
+  const w=getTaskWeek(taskIdx);
+  if(!w) return null;
+  return Math.ceil((w.deadline - new Date())/864e5);
+}
 
 const SEKSI=[
   {id:'acara',name:'Acara & Persidangan',ico:'&#127909;',c:'#185FA5',li:'#E6F1FB',tasks:['Susun rundown detail menit per menit','Siapkan tata tertib & mekanisme sidang','Koordinasi pimpinan sidang & notulis','Gladi bersih seluruh susunan acara','Briefing panitia acara H-1','Pastikan semua sesi berjalan tepat waktu']},
@@ -329,6 +353,13 @@ function startApp(){
     document.getElementById('nb-admin').style.display='';
     document.getElementById('nb-mine').style.display='none';
   }
+  // Request notification permission
+  if('Notification' in window && Notification.permission==='default'){
+    setTimeout(()=>Notification.requestPermission(),2000);
+  }
+  // Start deadline checker
+  checkDeadlineAlerts();
+  setInterval(checkDeadlineAlerts, 60000); // cek setiap menit
 
   if(!db){setSync('err','Mode offline');return;}
 
@@ -446,6 +477,26 @@ function renderHome(d){
   let h='<div style="height:8px"></div>';
   h+=`<div class="cd-bar"><div><div class="cd-l">Hari pelaksanaan</div><div class="cd-date">Sabtu, 8 Juni 2026</div></div><div style="text-align:right"><div class="cd-num">${days}</div><div class="cd-unit">hari lagi</div></div></div>`;
   h+=`<div class="theme-chip">&#9997;&#65039; "Menuntaskan Tugas Pelayanan dengan Setia dan Tanggung Jawab" &mdash; 1 Kor 4:2</div>`;
+
+  // Deadline reminder card
+  const nextDeadline=WEEK_DEADLINES.find(w=>new Date()<w.deadline);
+  const overdueWeeks=WEEK_DEADLINES.filter(w=>new Date()>w.deadline);
+  if(nextDeadline){
+    const dLeft=Math.ceil((nextDeadline.deadline-new Date())/864e5);
+    const urgColor=dLeft<=2?'#FAECE7':dLeft<=5?'#FAEEDA':'#E1F5EE';
+    const urgText=dLeft<=2?'#993C1D':dLeft<=5?'#854F0B':'#0F6E56';
+    const urgIco=dLeft<=2?'&#9888;&#65039;':dLeft<=5?'&#9201;':'&#128197;';
+    h+=`<div style="background:${urgColor};border-radius:10px;padding:10px 13px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+      <div><div style="font-size:10px;color:${urgText};font-weight:600">${urgIco} Deadline berikutnya</div>
+      <div style="font-size:12px;font-weight:600;color:${urgText};margin-top:2px">${nextDeadline.label}: ${nextDeadline.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'long'})}</div></div>
+      <div style="text-align:right"><div style="font-size:22px;font-weight:700;color:${urgText}">${dLeft}</div><div style="font-size:9px;color:${urgText}">hari lagi</div></div>
+    </div>`;
+  }
+  if(overdueWeeks.length>0){
+    h+=`<div style="background:#FAECE7;border-radius:10px;padding:8px 13px;margin-bottom:10px;font-size:11px;color:#993C1D">
+      &#9888;&#65039; <strong>${overdueWeeks.length} periode</strong> sudah melewati deadline. Segera selesaikan task yang tertunda!
+    </div>`;
+  }
   h+=`<div class="sgrid2">
     <div class="sc"><div class="sl">Progress total</div><div class="sn">${pct}%</div><div class="ss">semua seksi</div></div>
     <div class="sc"><div class="sl">Task selesai</div><div class="sn">${done}</div><div class="ss">dari ${total} task</div></div>
@@ -491,9 +542,25 @@ function buildTaskRow(s, t, i, taskData, noteVal, mine, showNote){
   const canToggle=mine;
 
   const isLocked=!!(window.__D?.locks?.[key]);
+  const taskIdx=idx; 
+  const ddDays=daysUntilDeadline(taskIdx);
+  const overdue=!dn && ddDays!==null && ddDays<0;
+  const urgent=!dn && ddDays!==null && ddDays>=0 && ddDays<=2;
+  const weekInfo=getTaskWeek(taskIdx);
+
   let metaHtml='';
   if(isLocked){
     metaHtml+=`<div style="font-size:9px;color:#993C1D;margin-top:3px;display:flex;align-items:center;gap:3px">&#128274; <span>Dikunci — hanya Ketua Pelaksana yang bisa membuka</span></div>`;
+  }
+  // Deadline badge
+  if(!dn && weekInfo){
+    if(overdue){
+      metaHtml+=`<div style="font-size:9px;color:#fff;background:#e24b4a;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#9888;&#65039; Terlambat ${Math.abs(ddDays)} hari &bull; Deadline ${weekInfo.label}: ${weekInfo.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}</div>`;
+    } else if(urgent){
+      metaHtml+=`<div style="font-size:9px;color:#fff;background:#854F0B;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#9201; ${ddDays===0?'Deadline hari ini':'Deadline besok'} &bull; ${weekInfo.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}</div>`;
+    } else if(ddDays<=7){
+      metaHtml+=`<div style="font-size:9px;color:#854F0B;background:#FAEEDA;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#128197; Sisa ${ddDays} hari &bull; ${weekInfo.label}: ${weekInfo.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}</div>`;
+    }
   }
   if(dn && byName && byAt){
     const isMine2=byName===ME?.name;
@@ -602,6 +669,67 @@ function renderChat(d){
   lastChatLen=msgs.length;
 }
 
+// ── DEADLINE & NOTIFIKASI ────────────────────────────────────
+let lastAlertSent = {};
+
+function checkDeadlineAlerts(){
+  if(!ME||isAdmin()||!window.__D)return;
+  const s=getSeksi(ME.seksiId);if(!s)return;
+  const tasks=window.__D.tasks||{};
+  let lateCount=0;
+  let warningCount=0;
+
+  s.tasks.forEach((t,i)=>{
+    const key=s.id+'_'+i;
+    const isDone=!!(tasks[key]?.done);
+    if(isDone)return;
+    const days=daysUntilDeadline(i);
+    if(days===null)return;
+    if(days<0){ lateCount++; }
+    else if(days<=2){ warningCount++; }
+  });
+
+  // Update warning badge on navbar
+  const badge=document.getElementById('nb-mine-badge');
+  if(badge){
+    if(lateCount>0){
+      badge.style.display='';badge.textContent=lateCount;badge.style.background='#e24b4a';
+    } else if(warningCount>0){
+      badge.style.display='';badge.textContent='!';badge.style.background='#854F0B';
+    } else {
+      badge.style.display='none';
+    }
+  }
+
+  // Push notification untuk task terlambat (sekali per task per hari)
+  if('Notification' in window && Notification.permission==='granted'){
+    s.tasks.forEach((t,i)=>{
+      const key=s.id+'_'+i;
+      const isDone=!!(tasks[key]?.done);
+      if(isDone)return;
+      const days=daysUntilDeadline(i);
+      if(days===null)return;
+      const alertKey=key+'_'+new Date().toDateString();
+      if(lastAlertSent[alertKey])return;
+      if(days<0){
+        lastAlertSent[alertKey]=true;
+        new Notification('⚠️ Task Terlambat — Musda GGBI',{
+          body:`Seksi ${getSeksi(ME.seksiId)?.name}: "${t}" sudah melewati deadline!`,
+          icon:'https://www.google.com/favicon.ico',
+          tag:key
+        });
+      } else if(days<=1 && days>=0){
+        lastAlertSent[alertKey]=true;
+        new Notification('⏰ Deadline Besok — Musda GGBI',{
+          body:`Seksi ${getSeksi(ME.seksiId)?.name}: "${t}" deadline besok!`,
+          icon:'https://www.google.com/favicon.ico',
+          tag:key+'_warn'
+        });
+      }
+    });
+  }
+}
+
 // ── ADMIN FUNCTIONS ────────────────────────────────────────────
 function showAdminLogin(){
   const m=document.getElementById('admin-modal');
@@ -669,11 +797,15 @@ function renderAdmin(d){
         const td=(d.tasks||{})[key];
         const locked=!!locks[key];
         const dn=!!td?.done;
-        h+=`<div style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:.5px solid rgba(0,0,0,.07)">
+        const adDays=daysUntilDeadline(i);
+        const adOverdue=!dn&&adDays!==null&&adDays<0;
+        const adWeek=getTaskWeek(i);
+        h+=`<div style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:.5px solid rgba(0,0,0,.07);background:${adOverdue?'#FEF2F2':'#fff'}">
           <div style="width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:${dn?'#0F6E56':'#fff'};color:${dn?'#fff':'#999'}">${dn?'&#10003;':''}</div>
           <div style="flex:1;min-width:0">
             <div style="font-size:11px;color:${dn?'#999':'#111'};${dn?'text-decoration:line-through':''};">${t}</div>
             ${dn&&td?.by?`<div style="font-size:9px;color:#0F6E56;margin-top:2px">&#10003; ${td.by} &bull; ${fmtTime(td.at)}</div>`:''}
+            ${adOverdue&&adWeek?`<div style="font-size:9px;color:#e24b4a;margin-top:2px;font-weight:600">&#9888; Terlambat ${Math.abs(adDays)} hari — deadline ${adWeek.label}</div>`:''}
             ${locked?`<div style="font-size:9px;color:#993C1D;margin-top:2px">&#128274; Terkunci — koordinator tidak bisa ubah</div>`:''}
           </div>
           <div style="display:flex;gap:4px;flex-shrink:0">
