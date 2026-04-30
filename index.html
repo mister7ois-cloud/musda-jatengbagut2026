@@ -118,7 +118,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="top" id="topbar" style="display:none">
   <div class="top-row">
     <div><div class="top-title">Koordinator Musda GGBI Jatengbagut</div>
-    <div class="top-sub">8 Juni 2025 &bull; Aula Frank Lewis, STT Baptis Indonesia</div></div>
+    <div class="top-sub">8 Juni 2026 &bull; Aula Frank Lewis, STT Baptis Indonesia</div></div>
     <div style="text-align:right">
       <div class="sync-row"><div class="sdot spin" id="sdot"></div><span class="slbl" id="slbl">...</span></div>
       <div class="top-pct" id="tpct">0%</div>
@@ -316,10 +316,10 @@ function renderHome(d){
   const pct=calcTotal(d);
   const done=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i]))).filter(Boolean).length;
   const total=SEKSI.reduce((a,s)=>a+s.tasks.length,0);
-  const days=Math.max(0,Math.ceil((new Date('2025-06-08')-new Date())/864e5));
+  const days=Math.max(0,Math.ceil((new Date('2026-06-08')-new Date())/864e5));
 
   let h='<div style="height:8px"></div>';
-  h+=`<div class="cd-bar"><div><div class="cd-l">Hari pelaksanaan</div><div class="cd-date">Sabtu, 8 Juni 2025</div></div><div style="text-align:right"><div class="cd-num">${days}</div><div class="cd-unit">hari lagi</div></div></div>`;
+  h+=`<div class="cd-bar"><div><div class="cd-l">Hari pelaksanaan</div><div class="cd-date">Sabtu, 8 Juni 2026</div></div><div style="text-align:right"><div class="cd-num">${days}</div><div class="cd-unit">hari lagi</div></div></div>`;
   h+=`<div class="theme-chip">&#9997;&#65039; "Menuntaskan Tugas Pelayanan dengan Setia dan Tanggung Jawab" &mdash; 1 Kor 4:2</div>`;
   h+=`<div class="sgrid2">
     <div class="sc"><div class="sl">Progress total</div><div class="sn">${pct}%</div><div class="ss">semua seksi</div></div>
