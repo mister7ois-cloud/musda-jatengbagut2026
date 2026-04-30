@@ -122,6 +122,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div style="text-align:right">
       <div class="sync-row"><div class="sdot spin" id="sdot"></div><span class="slbl" id="slbl">...</span></div>
       <div class="top-pct" id="tpct">0%</div>
+      <div style="font-size:9px;color:#999;cursor:pointer;margin-top:2px" onclick="doLogout()">&#128682; Keluar</div>
     </div>
   </div>
   <div class="prog-bar"><div class="prog-fill" id="tpfill" style="width:0%"></div></div>
@@ -218,9 +219,35 @@ function doLogin(){
   const sel=document.querySelector('.sp.sel');
   const n=document.getElementById('ninp').value.trim();
   if(!sel||!n)return;
-  ME={uid:sel.dataset.id+'_'+ts(),name:n,seksiId:sel.dataset.id};
-  localStorage.setItem('musda_me',JSON.stringify(ME));
-  startApp();
+  
+  // Cek duplikat: nama + seksi yang sama tidak boleh daftar 2x
+  if(db){
+    db.ref('online').once('value').then(snap=>{
+      const online=snap.val()||{};
+      const nameLower=n.toLowerCase().trim();
+      const dupName=Object.values(online).find(u=>
+        u.name.toLowerCase().trim()===nameLower
+      );
+      const dupSeksi=Object.values(online).find(u=>
+        u.seksi===sel.dataset.id && u.name.toLowerCase().trim()===nameLower
+      );
+      if(dupSeksi){
+        alert('Nama "'+n+'" sudah terdaftar di seksi '+getSeksi(sel.dataset.id)?.name+'. Gunakan nama lain atau hubungi ketua pelaksana.');
+        return;
+      }
+      if(dupName){
+        const konfirm=confirm('Nama "'+n+'" sudah terdaftar di seksi lain. Yakin ingin masuk dengan nama ini?');
+        if(!konfirm)return;
+      }
+      ME={uid:sel.dataset.id+'_'+n.replace(/\s+/g,'_').toLowerCase(),name:n,seksiId:sel.dataset.id};
+      localStorage.setItem('musda_me',JSON.stringify(ME));
+      startApp();
+    });
+  } else {
+    ME={uid:sel.dataset.id+'_'+n.replace(/\s+/g,'_').toLowerCase(),name:n,seksiId:sel.dataset.id};
+    localStorage.setItem('musda_me',JSON.stringify(ME));
+    startApp();
+  }
 }
 
 // ── APP ────────────────────────────────────────────────────────
@@ -432,6 +459,20 @@ function renderChat(d){
   });
   el.innerHTML=h;el.scrollTop=el.scrollHeight;
   lastChatLen=msgs.length;
+}
+
+function doLogout(){
+  if(!confirm('Keluar dari aplikasi?')) return;
+  if(db && ME) db.ref('online/'+ME.uid).remove();
+  localStorage.removeItem('musda_me');
+  ME=null;
+  document.getElementById('main-screen').style.display='none';
+  document.getElementById('topbar').style.display='none';
+  document.getElementById('login-screen').style.display='';
+  // Reset login form
+  document.querySelectorAll('.sp').forEach(e=>{e.classList.remove('sel');e.style.borderColor='rgba(0,0,0,.1)';});
+  document.getElementById('ninp').value='';
+  document.getElementById('btnlogin').disabled=true;
 }
 
 // Init
