@@ -19,6 +19,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .slbl{font-size:10px;color:#555}
 .top-pct{font-size:11px;font-weight:600;color:#185FA5;text-align:right;margin-top:2px}
+.logout-btn{font-size:9px;color:#999;cursor:pointer;margin-top:2px;text-align:right}
 .prog-bar{height:3px;background:rgba(0,0,0,.1);border-radius:2px;margin-top:7px;overflow:hidden}
 .prog-fill{height:100%;border-radius:2px;background:#185FA5;transition:width .5s}
 .login-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;min-height:85vh}
@@ -57,16 +58,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .chev{font-size:10px;color:#999;transition:transform .2s;margin-left:2px}
 .chev.op{transform:rotate(90deg)}
 .tl{border-top:.5px solid rgba(0,0,0,.1)}
-.tr{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:.5px solid rgba(0,0,0,.08);user-select:none}
+/* TASK ROW */
+.tr{border-bottom:.5px solid rgba(0,0,0,.07);padding:0}
 .tr:last-child{border-bottom:none}
-.tr.can{cursor:pointer}
-.tr.can:active{background:#f7f7f8}
+.tr-main{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;user-select:none}
+.tr.can .tr-main{cursor:pointer}
+.tr.can .tr-main:active{background:#f7f7f8}
 .chk{width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(0,0,0,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .15s;background:#fff}
 .chk.done{background:#0F6E56;border-color:#0F6E56;color:#fff}
 .chk.odone{background:#B5D4F4;border-color:#185FA5;color:#0C447C}
-.ttxt{font-size:11px;line-height:1.5;flex:1;color:#111}
+.task-info{flex:1;min-width:0}
+.ttxt{font-size:11px;line-height:1.5;color:#111}
 .ttxt.done{color:#999;text-decoration:line-through}
+.task-meta{font-size:10px;color:#0F6E56;margin-top:3px;display:flex;align-items:center;gap:4px}
+.task-meta.other{color:#185FA5}
 .tlock{font-size:9px;color:#999;margin-top:2px}
+/* NOTE */
+.note-wrap{padding:0 12px 8px 42px}
+.note-inp{width:100%;padding:6px 9px;border-radius:6px;border:.5px solid rgba(0,0,0,.15);background:#f7f7f8;font-size:11px;color:#333;outline:none;resize:none;font-family:inherit;line-height:1.5}
+.note-inp:focus{border-color:#185FA5;background:#fff}
+.note-saved{font-size:9px;color:#0F6E56;margin-top:3px}
+.note-display{font-size:10px;color:#555;padding:0 12px 7px 42px;line-height:1.5;font-style:italic}
+/* STATS */
 .sgrid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px}
 .sc{background:#f7f7f8;border-radius:8px;padding:10px 12px}
 .sl{font-size:10px;color:#555;margin-bottom:3px}
@@ -79,7 +92,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .hero-bar{height:6px;background:rgba(0,0,0,.15);border-radius:3px;overflow:hidden;margin-top:8px}
 .hero-bfill{height:100%;border-radius:3px;background:rgba(255,255,255,.7);transition:width .4s}
 .hero-info{font-size:10px;opacity:.75;margin-top:5px}
-.fi{display:flex;gap:8px;padding:8px 12px;border-bottom:.5px solid rgba(0,0,0,.08)}
+.fi{display:flex;gap:8px;padding:8px 12px;border-bottom:.5px solid rgba(0,0,0,.07)}
 .fi:last-child{border-bottom:none}
 .fdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .fwho{font-size:11px;font-weight:600;color:#111}
@@ -117,12 +130,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="app" id="app">
 <div class="top" id="topbar" style="display:none">
   <div class="top-row">
-    <div><div class="top-title">Koordinator Musda GGBI Jatengbagut</div>
-    <div class="top-sub">8 Juni 2026 &bull; Aula Frank Lewis, STT Baptis Indonesia</div></div>
+    <div>
+      <div class="top-title">Koordinator Musda GGBI Jatengbagut</div>
+      <div class="top-sub">8 Juni 2026 &bull; Aula Frank Lewis, STT Baptis Indonesia</div>
+    </div>
     <div style="text-align:right">
       <div class="sync-row"><div class="sdot spin" id="sdot"></div><span class="slbl" id="slbl">...</span></div>
       <div class="top-pct" id="tpct">0%</div>
-      <div style="font-size:9px;color:#999;cursor:pointer;margin-top:2px" onclick="doLogout()">&#128682; Keluar</div>
+      <div class="logout-btn" onclick="doLogout()">&#128682; Keluar</div>
     </div>
   </div>
   <div class="prog-bar"><div class="prog-fill" id="tpfill" style="width:0%"></div></div>
@@ -132,10 +147,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="login-wrap">
     <div class="login-ico">&#9997;&#65039;</div>
     <div class="login-title">Koordinator Musda GGBI</div>
-    <div class="login-sub">Pilih seksi Anda &amp; masukkan nama.<br>Progress langsung tersinkron ke semua koordinator.</div>
+    <div class="login-sub">Pilih seksi &amp; masukkan nama Anda.<br>Progress tersinkron real-time ke semua koordinator.</div>
     <div class="sgrid" id="seksi-grid"></div>
-    <input class="ninp" id="ninp" placeholder="Nama Anda..." maxlength="30" oninput="chkLogin()">
+    <input class="ninp" id="ninp" placeholder="Nama lengkap Anda..." maxlength="30" oninput="chkLogin()">
     <button class="btn-login" id="btnlogin" onclick="doLogin()" disabled>Masuk &#10140;</button>
+    <div style="margin-top:12px;text-align:center">
+      <div style="font-size:10px;color:#999;margin-bottom:6px">— atau —</div>
+      <button onclick="showAdminLogin()" style="background:none;border:.5px solid rgba(0,0,0,.2);border-radius:8px;padding:8px 20px;font-size:11px;color:#555;cursor:pointer;width:100%">&#128274; Masuk sebagai Ketua Pelaksana</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div id="admin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:340px">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:28px;margin-bottom:6px">&#128274;</div>
+      <div style="font-size:15px;font-weight:600">Masuk sebagai Ketua Pelaksana</div>
+      <div style="font-size:11px;color:#555;margin-top:4px">Masukkan nama dan PIN ketua pelaksana</div>
+    </div>
+    <input id="admin-name" class="ninp" placeholder="Nama Ketua Pelaksana..." maxlength="30" style="margin-bottom:8px">
+    <input id="admin-pin" class="ninp" type="password" placeholder="PIN (4 digit)..." maxlength="6" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')doAdminLogin()">
+    <button onclick="doAdminLogin()" style="width:100%;padding:11px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:8px">Masuk sebagai Ketua &#10140;</button>
+    <button onclick="closeAdminModal()" style="width:100%;padding:9px;background:none;border:.5px solid rgba(0,0,0,.15);border-radius:8px;font-size:12px;color:#555;cursor:pointer">Batal</button>
   </div>
 </div>
 
@@ -151,24 +185,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <button class="cs" onclick="sendChat()">Kirim</button>
       </div>
     </div>
+    <div class="page" id="pg-admin"><div style="height:8px"></div><div id="admc"></div></div>
   </div>
   <div class="bnav">
     <button class="nb on" onclick="nav('home',this)"><span class="nb-ico">&#127968;</span><span class="nb-lbl">Beranda</span></button>
-    <button class="nb" onclick="nav('mine',this)"><span class="nb-ico">&#9989;</span><span class="nb-lbl">Seksi Saya</span></button>
+    <button class="nb" id="nb-mine" onclick="nav('mine',this)"><span class="nb-ico">&#9989;</span><span class="nb-lbl">Seksi Saya</span></button>
     <button class="nb" onclick="nav('all',this)"><span class="nb-ico">&#128101;</span><span class="nb-lbl">Semua Seksi</span></button>
     <button class="nb" onclick="nav('chat',this)"><span class="nb-ico">&#128172;</span><span class="nb-lbl">Chat<span id="cbadge" style="display:none;background:#e24b4a;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px"></span></span></button>
+    <button class="nb" id="nb-admin" style="display:none" onclick="nav('admin',this)"><span class="nb-ico">&#128274;</span><span class="nb-lbl">Ketua</span></button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-database-compat.min.js"></script>
-
 <script>
-// ── GANTI DENGAN KONFIGURASI FIREBASE ANDA ──────────────────────
-// Ikuti panduan di bawah untuk mendapatkan nilai ini (GRATIS)
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyALFggW4GzJHvncJJRoeLMJ4exb7ghGQbM",
   authDomain: "musda-jatengbagut.firebaseapp.com",
@@ -176,9 +208,12 @@ const FIREBASE_CONFIG = {
   projectId: "musda-jatengbagut",
   storageBucket: "musda-jatengbagut.firebasestorage.app",
   messagingSenderId: "815427801973",
-  appId: "1:815427801973:web:278d88b2578892cd4ef93c",
+  appId: "1:815427801973:web:278d88b2578892cd4ef93c"
 };
-// ────────────────────────────────────────────────────────────────
+
+// ── ADMIN CONFIG ─────────────────────────────────────────────
+const ADMIN_PIN = "1234"; // Ganti PIN ini sesuai kebutuhan
+const ADMIN_ID  = "ketua_pelaksana";
 
 const SEKSI=[
   {id:'acara',name:'Acara & Persidangan',ico:'&#127909;',c:'#185FA5',li:'#E6F1FB',tasks:['Susun rundown detail menit per menit','Siapkan tata tertib & mekanisme sidang','Koordinasi pimpinan sidang & notulis','Gladi bersih seluruh susunan acara','Briefing panitia acara H-1','Pastikan semua sesi berjalan tepat waktu']},
@@ -190,20 +225,42 @@ const SEKSI=[
   {id:'keamanan',name:'Keamanan',ico:'&#128737;',c:'#5F5E5A',li:'#F1EFE8',tasks:['Koordinasi petugas keamanan (2 orang)','Siapkan sistem & area parkir kendaraan','Siapkan kotak P3K & obat-obatan','Briefing tim keamanan H-1','Atur akses masuk & keamanan aula','Pantau ketertiban selama Musda']},
 ];
 
-let ME=null,db=null,openSec={},curPage='home',lastChatLen=0;
+let ME=null,db=null,openSec={},curPage='home',lastChatLen=0,noteTimers={};
 
-// Init Firebase
+// UID deterministik — nama + seksi = orang yang sama di device manapun
+function makeUID(name, seksiId){
+  if(seksiId===ADMIN_ID) return ADMIN_ID;
+  return seksiId+'__'+name.toLowerCase().trim().replace(/\s+/g,'_');
+}
+function isAdmin(){return ME && ME.seksiId===ADMIN_ID;}
+
 try{
   firebase.initializeApp(FIREBASE_CONFIG);
   db=firebase.database();
-}catch(e){console.error('Firebase init failed',e);}
+}catch(e){console.error(e);}
 
 function ts(){return Date.now();}
-function ago(t){const d=Math.floor((ts()-t)/1e3);if(d<5)return'baru saja';if(d<60)return d+'d lalu';if(d<3600)return Math.floor(d/60)+'m lalu';return Math.floor(d/3600)+'j lalu';}
+function fmtTime(t){
+  const d=new Date(t);
+  return d.toLocaleDateString('id-ID',{day:'numeric',month:'short'})+' pukul '+
+    d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+}
+function ago(t){
+  const d=Math.floor((ts()-t)/1e3);
+  if(d<5)return'baru saja';
+  if(d<60)return d+'d lalu';
+  if(d<3600)return Math.floor(d/60)+'m lalu';
+  return Math.floor(d/3600)+'j lalu';
+}
 function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
 function getSeksi(id){return SEKSI.find(s=>s.id===id);}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
-function setSync(s,txt){const d=document.getElementById('sdot');const l=document.getElementById('slbl');if(!d||!l)return;d.className='sdot '+(s==='ok'?'ok':s==='err'?'':'spin');l.textContent=txt;}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function setSync(s,txt){
+  const d=document.getElementById('sdot'),l=document.getElementById('slbl');
+  if(!d||!l)return;
+  d.className='sdot '+(s==='ok'?'ok':s==='err'?'':'spin');
+  l.textContent=txt;
+}
 
 // ── LOGIN ──────────────────────────────────────────────────────
 function pickSeksi(el){
@@ -215,39 +272,50 @@ function chkLogin(){
   const n=document.getElementById('ninp').value.trim();
   document.getElementById('btnlogin').disabled=!(sel&&n.length>=2);
 }
+
 function doLogin(){
   const sel=document.querySelector('.sp.sel');
   const n=document.getElementById('ninp').value.trim();
   if(!sel||!n)return;
-  
-  // Cek duplikat: nama + seksi yang sama tidak boleh daftar 2x
+
+  const uid=makeUID(n, sel.dataset.id);
+
   if(db){
+    // Cek apakah nama ini sudah terdaftar di seksi LAIN
     db.ref('online').once('value').then(snap=>{
       const online=snap.val()||{};
       const nameLower=n.toLowerCase().trim();
-      const dupName=Object.values(online).find(u=>
-        u.name.toLowerCase().trim()===nameLower
+      const conflictSeksi=Object.values(online).find(u=>
+        u.name.toLowerCase().trim()===nameLower &&
+        u.seksi !== sel.dataset.id &&
+        (ts()-u.ts)<300000 // aktif dalam 5 menit terakhir
       );
-      const dupSeksi=Object.values(online).find(u=>
-        u.seksi===sel.dataset.id && u.name.toLowerCase().trim()===nameLower
-      );
-      if(dupSeksi){
-        alert('Nama "'+n+'" sudah terdaftar di seksi '+getSeksi(sel.dataset.id)?.name+'. Gunakan nama lain atau hubungi ketua pelaksana.');
-        return;
+      if(conflictSeksi){
+        const s=getSeksi(conflictSeksi.seksi);
+        if(!confirm(`"${n}" sedang aktif di seksi ${s?.name}. Tetap masuk di seksi ${getSeksi(sel.dataset.id)?.name}?`))return;
       }
-      if(dupName){
-        const konfirm=confirm('Nama "'+n+'" sudah terdaftar di seksi lain. Yakin ingin masuk dengan nama ini?');
-        if(!konfirm)return;
-      }
-      ME={uid:sel.dataset.id+'_'+n.replace(/\s+/g,'_').toLowerCase(),name:n,seksiId:sel.dataset.id};
-      localStorage.setItem('musda_me',JSON.stringify(ME));
+      ME={uid, name:n, seksiId:sel.dataset.id};
+      localStorage.setItem('musda_me_v3',JSON.stringify(ME));
       startApp();
     });
   } else {
-    ME={uid:sel.dataset.id+'_'+n.replace(/\s+/g,'_').toLowerCase(),name:n,seksiId:sel.dataset.id};
-    localStorage.setItem('musda_me',JSON.stringify(ME));
+    ME={uid, name:n, seksiId:sel.dataset.id};
+    localStorage.setItem('musda_me_v3',JSON.stringify(ME));
     startApp();
   }
+}
+
+function doLogout(){
+  if(!confirm('Keluar dari aplikasi?'))return;
+  if(db&&ME)db.ref('online/'+ME.uid).remove();
+  localStorage.removeItem('musda_me_v3');
+  ME=null;
+  document.getElementById('main-screen').style.display='none';
+  document.getElementById('topbar').style.display='none';
+  document.getElementById('login-screen').style.display='';
+  document.querySelectorAll('.sp').forEach(e=>{e.classList.remove('sel');e.style.borderColor='rgba(0,0,0,.1)';});
+  document.getElementById('ninp').value='';
+  document.getElementById('btnlogin').disabled=true;
 }
 
 // ── APP ────────────────────────────────────────────────────────
@@ -256,20 +324,25 @@ function startApp(){
   document.getElementById('main-screen').style.display='';
   document.getElementById('topbar').style.display='';
   document.getElementById('cinp').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+  // Show/hide admin tab and mine tab
+  if(isAdmin()){
+    document.getElementById('nb-admin').style.display='';
+    document.getElementById('nb-mine').style.display='none';
+  }
 
-  if(!db){setSync('err','Offline mode');startOffline();return;}
+  if(!db){setSync('err','Mode offline');return;}
 
-  // Heartbeat online
   const onlineRef=db.ref('online/'+ME.uid);
   onlineRef.set({name:ME.name,seksi:ME.seksiId,color:getSeksi(ME.seksiId)?.c||'#888',ts:ts()});
   onlineRef.onDisconnect().remove();
   setInterval(()=>onlineRef.update({ts:ts()}),20000);
 
-  // Listen realtime
   db.ref('/').on('value',snap=>{
     const d=snap.val()||{};
+    window.__D=d;
     renderAll(d);
-    setSync('ok',Object.keys(d.online||{}).length+' online');
+    const ol=Object.keys(d.online||{}).length;
+    setSync('ok', ol+' koordinator online');
     const nc=Object.keys(d.chat||{}).length;
     if(curPage!=='chat'&&nc>lastChatLen){
       const b=document.getElementById('cbadge');b.style.display='';b.textContent='+'+(nc-lastChatLen);
@@ -277,45 +350,64 @@ function startApp(){
   });
 }
 
-function startOffline(){
-  // Fallback localStorage
-  setInterval(()=>{
-    try{const d=JSON.parse(localStorage.getItem('musda_shared')||'{}');renderAll(d);}catch(e){}
-  },3000);
-}
-
 function calcPct(d,sid){
   const s=getSeksi(sid);if(!s)return 0;
-  const done=s.tasks.filter((_,i)=>(d.tasks||{})[sid+'_'+i]).length;
+  const done=s.tasks.filter((_,i)=>(d.tasks||{})[sid+'_'+i]?.done).length;
   return Math.round(done/s.tasks.length*100);
 }
 function calcTotal(d){
-  const all=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i])));
+  const all=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i]?.done)));
   return Math.round(all.filter(Boolean).length/all.length*100);
 }
 function onlineList(d){return Object.values(d.online||{}).filter(u=>(ts()-u.ts)<90000);}
 
+// Toggle task — simpan siapa & kapan
 async function toggleTask(sid,idx){
   if(!ME||ME.seksiId!==sid)return;
+  // Cek apakah task dikunci oleh admin
+  const lockSnap=await db.ref('locks/'+sid+'_'+idx).get();
+  if(lockSnap.val()){
+    showToast('&#128274; Task ini dikunci oleh Ketua Pelaksana');
+    return;
+  }
   const key=sid+'_'+idx;
   const s=getSeksi(sid);
-  if(db){
-    const ref=db.ref('tasks/'+key);
-    const snap=await ref.get();
-    const cur=snap.val()||false;
-    await ref.set(!cur);
-    await db.ref('activity').push({who:ME.name,seksi:s.name,c:s.c,txt:(!cur?'Selesai: ':'Batal: ')+'"'+s.tasks[idx]+'"',ts:ts()});
-    showToast(!cur?'✓ Task selesai!':'Task dibatalkan');
+  const ref=db.ref('tasks/'+key);
+  const snap=await ref.get();
+  const cur=snap.val()||{};
+  const isDone=!!cur.done;
+
+  if(!isDone){
+    // Centang: simpan siapa & kapan
+    await ref.set({done:true, by:ME.name, byColor:s.c, at:ts()});
+    await db.ref('activity').push({who:ME.name,seksi:s.name,c:s.c,
+      txt:`Selesai: "${s.tasks[idx]}"`,ts:ts()});
+    showToast('&#10003; Diselesaikan oleh '+ME.name);
+  } else {
+    // Batalkan centang
+    await ref.set({done:false, by:null, byColor:null, at:ts()});
+    await db.ref('activity').push({who:ME.name,seksi:s.name,c:s.c,
+      txt:`Dibatalkan: "${s.tasks[idx]}"`,ts:ts()});
+    showToast('Task dibatalkan');
   }
+}
+
+// Simpan catatan per task (debounce 1.5 detik)
+function saveNote(key, val){
+  clearTimeout(noteTimers[key]);
+  noteTimers[key]=setTimeout(async()=>{
+    await db.ref('notes/'+key).set(val||null);
+    const el=document.getElementById('note-saved-'+key);
+    if(el){el.textContent='Tersimpan ✓';setTimeout(()=>{if(el)el.textContent='';},2000);}
+  },1500);
 }
 
 async function sendChat(){
   const inp=document.getElementById('cinp');
   const msg=inp.value.trim();if(!msg||!ME)return;
   inp.value='';
-  if(db){
-    await db.ref('chat').push({uid:ME.uid,name:ME.name,seksi:ME.seksiId,c:getSeksi(ME.seksiId)?.c||'#888',msg,ts:ts()});
-  }
+  await db.ref('chat').push({uid:ME.uid,name:ME.name,seksi:ME.seksiId,
+    c:getSeksi(ME.seksiId)?.c||'#888',msg,ts:ts()});
 }
 
 function nav(page,btn){
@@ -324,9 +416,14 @@ function nav(page,btn){
   document.getElementById('pg-'+page).classList.add('on');
   if(btn)btn.classList.add('on');
   curPage=page;
-  if(page==='chat'){document.getElementById('cbadge').style.display='none';lastChatLen=0;}
+  if(page==='chat'){
+    document.getElementById('cbadge').style.display='none';
+    lastChatLen=Object.keys((window.__D?.chat)||{}).length;
+    if(window.__D)renderChat(window.__D);
+  }
+  if(window.__D)renderAll(window.__D);
 }
-function toggleSection(id){openSec[id]=openSec[id]===false;} 
+function toggleSection(id){openSec[id]=openSec[id]===false;if(window.__D)renderAllSeksi(window.__D);}
 
 function renderAll(d){
   const pct=calcTotal(d);
@@ -336,12 +433,13 @@ function renderAll(d){
   else if(curPage==='mine')renderMine(d);
   else if(curPage==='all')renderAllSeksi(d);
   else if(curPage==='chat')renderChat(d);
+  else if(curPage==='admin')renderAdmin(d);
 }
 
 function renderHome(d){
   const ol=onlineList(d);
   const pct=calcTotal(d);
-  const done=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i]))).filter(Boolean).length;
+  const done=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i]?.done))).filter(Boolean).length;
   const total=SEKSI.reduce((a,s)=>a+s.tasks.length,0);
   const days=Math.max(0,Math.ceil((new Date('2026-06-08')-new Date())/864e5));
 
@@ -364,7 +462,7 @@ function renderHome(d){
   h+=`<div class="sec-lbl">PROGRESS SEMUA SEKSI</div>`;
   SEKSI.forEach(s=>{
     const p=calcPct(d,s.id);
-    const dn=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]).length;
+    const dn=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]?.done).length;
     h+=`<div class="card" style="margin-bottom:6px"><div class="card-head" style="cursor:default;padding:9px 12px">
       <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
         <div><div class="ch-name">${s.name}</div><div class="ch-sub">${dn}/${s.tasks.length} selesai</div></div>
@@ -377,32 +475,78 @@ function renderHome(d){
   const acts=Object.values(d.activity||{}).sort((a,b)=>b.ts-a.ts).slice(0,6);
   if(acts.length>0){
     h+=`<div class="sec-lbl" style="margin-top:4px">AKTIVITAS TERKINI</div><div class="card"><div>`;
-    acts.forEach(a=>{h+=`<div class="fi"><div class="fdot" style="background:${a.c}"></div><div><div class="fwho">${a.who} <span style="font-weight:400;color:#555">(${a.seksi})</span></div><div class="ftxt">${a.txt}</div><div class="ftime">${ago(a.ts)}</div></div></div>`;});
+    acts.forEach(a=>{h+=`<div class="fi"><div class="fdot" style="background:${a.c}"></div>
+      <div><div class="fwho">${a.who} <span style="font-weight:400;color:#555">(${a.seksi})</span></div>
+      <div class="ftxt">${a.txt}</div><div class="ftime">${ago(a.ts)}</div></div></div>`;});
     h+=`</div></div>`;
   }
   document.getElementById('hc').innerHTML=h;
+}
+
+function buildTaskRow(s, t, i, taskData, noteVal, mine, showNote){
+  const key=s.id+'_'+i;
+  const dn=!!taskData?.done;
+  const byName=taskData?.by;
+  const byAt=taskData?.at;
+  const canToggle=mine;
+
+  const isLocked=!!(window.__D?.locks?.[key]);
+  let metaHtml='';
+  if(isLocked){
+    metaHtml+=`<div style="font-size:9px;color:#993C1D;margin-top:3px;display:flex;align-items:center;gap:3px">&#128274; <span>Dikunci — hanya Ketua Pelaksana yang bisa membuka</span></div>`;
+  }
+  if(dn && byName && byAt){
+    const isMine2=byName===ME?.name;
+    metaHtml=`<div class="task-meta ${isMine2?'':'other'}">
+      &#10003; <span>${byName}</span> &bull; <span>${fmtTime(byAt)}</span>
+    </div>`;
+  }
+
+  let noteHtml='';
+  if(showNote){
+    // Show note input for own seksi
+    noteHtml=`<div class="note-wrap">
+      <textarea class="note-inp" rows="2" placeholder="Tambah catatan..." 
+        onchange="saveNote('${key}',this.value)" 
+        oninput="saveNote('${key}',this.value)">${noteVal||''}</textarea>
+      <div class="note-saved" id="note-saved-${key}"></div>
+    </div>`;
+  } else if(noteVal){
+    // Read-only note for other seksi
+    noteHtml=`<div class="note-display">&#128221; ${noteVal}</div>`;
+  }
+
+  return `<div class="tr ${canToggle?'can':''}">
+    <div class="tr-main" ${canToggle?`onclick="toggleTask('${s.id}',${i})"`:''}> 
+      <div class="chk ${dn?(mine?'done':'odone'):''}">${dn?'&#10003;':''}</div>
+      <div class="task-info">
+        <div class="ttxt ${dn?'done':''}">${t}</div>
+        ${metaHtml}
+        ${!mine&&!dn?`<div class="tlock">Hanya koordinator ${s.name}</div>`:''}
+      </div>
+    </div>
+    ${noteHtml}
+  </div>`;
 }
 
 function renderMine(d){
   if(!ME)return;
   const s=getSeksi(ME.seksiId);if(!s)return;
   const pct=calcPct(d,s.id);
-  const done=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]).length;
+  const done=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]?.done).length;
   let h=`<div class="hero" style="background:${s.c}">
     <div class="hero-lbl">Seksi saya</div><div class="hero-name">${s.name}</div>
     <div class="hero-pct">${pct}%</div>
     <div class="hero-bar"><div class="hero-bfill" style="width:${pct}%"></div></div>
     <div class="hero-info">${done}/${s.tasks.length} task selesai &bull; ${ME.name}</div>
   </div>
-  <div class="sec-lbl">TASK SEKSI SAYA &mdash; ketuk untuk update</div>
+  <div class="sec-lbl">TASK SEKSI SAYA &mdash; ketuk untuk centang / batalkan</div>
   <div class="card"><div class="tl">`;
   s.tasks.forEach((t,i)=>{
-    const dn=!!((d.tasks||{})[s.id+'_'+i]);
-    h+=`<div class="tr can" onclick="toggleTask('${s.id}',${i})">
-      <div class="chk ${dn?'done':''}">${dn?'&#10003;':''}</div>
-      <div style="flex:1"><div class="ttxt ${dn?'done':''}">${t}</div>
-      <div style="font-size:10px;color:${s.c};margin-top:2px">${s.name}</div></div>
-    </div>`;
+    const key=s.id+'_'+i;
+    const td=(d.tasks||{})[key];
+    const nv=(d.notes||{})[key];
+    h+=buildTaskRow(s,t,i,td,nv,true,true);
   });
   h+=`</div></div>`;
   document.getElementById('mc').innerHTML=h;
@@ -414,9 +558,9 @@ function renderAllSeksi(d){
     const pct=calcPct(d,s.id);
     const mine=ME&&ME.seksiId===s.id;
     const isOpen=openSec[s.id]!==false;
-    const done=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]).length;
+    const done=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]?.done).length;
     h+=`<div class="card">
-      <div class="card-head" onclick="toggleSection('${s.id}');renderAllSeksi(window.__lastD||{})">
+      <div class="card-head" onclick="toggleSection('${s.id}')">
         <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
           <div><div class="ch-name">${s.name}${mine?'<span class="mybadge">Saya</span>':''}</div>
           <div class="ch-sub">${done}/${s.tasks.length} selesai</div></div>
@@ -429,18 +573,15 @@ function renderAllSeksi(d){
     if(isOpen){
       h+=`<div class="tl">`;
       s.tasks.forEach((t,i)=>{
-        const dn=!!((d.tasks||{})[s.id+'_'+i]);
-        h+=`<div class="tr ${mine?'can':''}" ${mine?`onclick="toggleTask('${s.id}',${i})"`:''}> 
-          <div class="chk ${dn?(mine?'done':'odone'):''}">${dn?'&#10003;':''}</div>
-          <div style="flex:1"><div class="ttxt ${dn?'done':''}">${t}</div>
-          ${!mine?`<div class="tlock">Hanya koordinator ${s.name}</div>`:''}
-          </div></div>`;
+        const key=s.id+'_'+i;
+        const td=(d.tasks||{})[key];
+        const nv=(d.notes||{})[key];
+        h+=buildTaskRow(s,t,i,td,nv,mine,mine);
       });
       h+=`</div>`;
     }
     h+=`</div>`;
   });
-  window.__lastD=d;
   document.getElementById('ac').innerHTML=h;
 }
 
@@ -461,30 +602,103 @@ function renderChat(d){
   lastChatLen=msgs.length;
 }
 
-function doLogout(){
-  if(!confirm('Keluar dari aplikasi?')) return;
-  if(db && ME) db.ref('online/'+ME.uid).remove();
-  localStorage.removeItem('musda_me');
-  ME=null;
-  document.getElementById('main-screen').style.display='none';
-  document.getElementById('topbar').style.display='none';
-  document.getElementById('login-screen').style.display='';
-  // Reset login form
-  document.querySelectorAll('.sp').forEach(e=>{e.classList.remove('sel');e.style.borderColor='rgba(0,0,0,.1)';});
-  document.getElementById('ninp').value='';
-  document.getElementById('btnlogin').disabled=true;
+// ── ADMIN FUNCTIONS ────────────────────────────────────────────
+function showAdminLogin(){
+  const m=document.getElementById('admin-modal');
+  m.style.display='flex';
+  setTimeout(()=>document.getElementById('admin-name').focus(),100);
+}
+function closeAdminModal(){
+  document.getElementById('admin-modal').style.display='none';
+  document.getElementById('admin-pin').value='';
+  document.getElementById('admin-name').value='';
+}
+function doAdminLogin(){
+  const pin=document.getElementById('admin-pin').value.trim();
+  const name=document.getElementById('admin-name').value.trim();
+  if(!name){alert('Masukkan nama ketua pelaksana.');return;}
+  if(pin!==ADMIN_PIN){alert('PIN salah. Hubungi pengembang aplikasi.');return;}
+  closeAdminModal();
+  ME={uid:ADMIN_ID, name:name||'Ketua Pelaksana', seksiId:ADMIN_ID, isAdmin:true};
+  localStorage.setItem('musda_me_v3',JSON.stringify(ME));
+  startApp();
 }
 
-// Init
+async function toggleLock(key){
+  if(!isAdmin())return;
+  const ref=db.ref('locks/'+key);
+  const snap=await ref.get();
+  const cur=!!snap.val();
+  await ref.set(!cur);
+  showToast(!cur ? '&#128274; Task dikunci' : '&#128275; Task dibuka');
+}
+
+async function resetTask(key){
+  if(!isAdmin())return;
+  if(!confirm('Reset task ini? Status selesai dan catatan akan dihapus.'))return;
+  await db.ref('tasks/'+key).remove();
+  await db.ref('notes/'+key).remove();
+  showToast('Task direset');
+}
+
+function renderAdmin(d){
+  const locks=d.locks||{};
+  let h=`<div style="background:#185FA5;border-radius:12px;padding:12px 14px;margin-bottom:10px;color:#fff">
+    <div style="font-size:11px;opacity:.8">Mode Admin</div>
+    <div style="font-size:15px;font-weight:600;margin-top:2px">&#128274; Panel Ketua Pelaksana</div>
+    <div style="font-size:10px;opacity:.75;margin-top:4px">Kunci task agar tidak bisa diubah koordinator. Reset task jika diperlukan.</div>
+  </div>
+  <div style="font-size:10px;color:#999;padding:3px 2px 8px;letter-spacing:.04em;font-weight:600">KUNCI / BUKA TASK PER SEKSI</div>`;
+
+  SEKSI.forEach(s=>{
+    const isOpen=openSec['adm_'+s.id]!==false;
+    const lockedCount=s.tasks.filter((_,i)=>locks[s.id+'_'+i]).length;
+    const doneCount=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]?.done).length;
+    h+=`<div class="card">
+      <div class="card-head" onclick="openSec['adm_${s.id}']=openSec['adm_${s.id}']===false;renderAdmin(window.__D||{})">
+        <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
+          <div><div class="ch-name">${s.name}</div>
+          <div class="ch-sub">${doneCount}/${s.tasks.length} selesai &bull; ${lockedCount} dikunci</div></div>
+        </div>
+        <span class="chev ${isOpen?'op':''}">&#9654;</span>
+      </div>`;
+    if(isOpen){
+      h+=`<div class="tl">`;
+      s.tasks.forEach((t,i)=>{
+        const key=s.id+'_'+i;
+        const td=(d.tasks||{})[key];
+        const locked=!!locks[key];
+        const dn=!!td?.done;
+        h+=`<div style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:.5px solid rgba(0,0,0,.07)">
+          <div style="width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:${dn?'#0F6E56':'#fff'};color:${dn?'#fff':'#999'}">${dn?'&#10003;':''}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;color:${dn?'#999':'#111'};${dn?'text-decoration:line-through':''};">${t}</div>
+            ${dn&&td?.by?`<div style="font-size:9px;color:#0F6E56;margin-top:2px">&#10003; ${td.by} &bull; ${fmtTime(td.at)}</div>`:''}
+            ${locked?`<div style="font-size:9px;color:#993C1D;margin-top:2px">&#128274; Terkunci — koordinator tidak bisa ubah</div>`:''}
+          </div>
+          <div style="display:flex;gap:4px;flex-shrink:0">
+            <button onclick="toggleLock('${key}')" style="padding:4px 8px;border-radius:6px;border:.5px solid rgba(0,0,0,.15);font-size:10px;background:${locked?'#FAECE7':'#f7f7f8'};color:${locked?'#993C1D':'#555'};cursor:pointer">${locked?'&#128275; Buka':'&#128274; Kunci'}</button>
+            ${dn?`<button onclick="resetTask('${key}')" style="padding:4px 8px;border-radius:6px;border:.5px solid rgba(0,0,0,.15);font-size:10px;background:#fff;color:#999;cursor:pointer">&#8635; Reset</button>`:''}
+          </div>
+        </div>`;
+      });
+      h+=`</div>`;
+    }
+    h+=`</div>`;
+  });
+  document.getElementById('admc').innerHTML=h;
+}
+
+// ── Init
 document.getElementById('seksi-grid').innerHTML=SEKSI.map(s=>`
   <div class="sp" data-id="${s.id}" data-c="${s.c}" onclick="pickSeksi(this)">
     <div class="sp-ico">${s.ico}</div>
     <div class="sp-name" style="color:${s.c}">${s.name}</div>
   </div>`).join('');
 
-const savedMe=localStorage.getItem('musda_me');
+const savedMe=localStorage.getItem('musda_me_v3');
 if(savedMe){ME=JSON.parse(savedMe);startApp();}
-else{document.getElementById('login-screen').style.display='';}
+else document.getElementById('login-screen').style.display='';
 </script>
 </body>
 </html>
