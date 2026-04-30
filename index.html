@@ -5,203 +5,210 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Koordinator Musda GGBI Jatengbagut</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f2;color:#111}
-.app{max-width:420px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-.top{background:#fff;border-bottom:.5px solid rgba(0,0,0,.1);padding:10px 14px;position:sticky;top:0;z-index:30}
-.top-row{display:flex;align-items:flex-start;justify-content:space-between}
-.top-title{font-size:13px;font-weight:600;color:#111}
-.top-sub{font-size:10px;color:#555;margin-top:1px}
-.sync-row{display:flex;align-items:center;gap:4px;justify-content:flex-end}
-.sdot{width:7px;height:7px;border-radius:50%;background:#A32D2D}
-.sdot.ok{background:#15803d}
-.sdot.spin{background:#854F0B;animation:pulse 1s infinite}
+.app{max-width:430px;margin:0 auto;min-height:100vh;background:#f0f0f2}
+
+/* TOP */
+.top{background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 14px;position:sticky;top:0;z-index:30}
+.top-r{display:flex;justify-content:space-between;align-items:flex-start}
+.top-title{font-size:13px;font-weight:700;color:#111}
+.top-sub{font-size:10px;color:#6b7280;margin-top:1px}
+.sdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#d1d5db;margin-right:3px}
+.sdot.ok{background:#16a34a}
+.sdot.spin{background:#d97706;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.slbl{font-size:10px;color:#555}
-.top-pct{font-size:11px;font-weight:600;color:#185FA5;text-align:right;margin-top:2px}
-.logout-btn{font-size:9px;color:#999;cursor:pointer;margin-top:2px;text-align:right}
-.prog-bar{height:3px;background:rgba(0,0,0,.1);border-radius:2px;margin-top:7px;overflow:hidden}
-.prog-fill{height:100%;border-radius:2px;background:#185FA5;transition:width .5s}
-.login-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;min-height:85vh}
-.login-ico{font-size:32px;margin-bottom:10px}
-.login-title{font-size:18px;font-weight:600;text-align:center;margin-bottom:4px}
-.login-sub{font-size:12px;color:#555;text-align:center;margin-bottom:22px;line-height:1.6}
+.slbl{font-size:10px;color:#6b7280}
+.top-pct{font-size:11px;font-weight:700;color:#1d4ed8;margin-top:2px}
+.logout{font-size:9px;color:#9ca3af;cursor:pointer;margin-top:2px}
+.pbar{height:3px;background:#e5e7eb;border-radius:2px;margin-top:7px}
+.pfill{height:100%;border-radius:2px;background:#1d4ed8;transition:width .4s}
+
+/* LOGIN */
+.login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:88vh;padding:20px}
+.login h2{font-size:18px;font-weight:700;margin-bottom:4px;text-align:center}
+.login p{font-size:12px;color:#6b7280;text-align:center;margin-bottom:20px;line-height:1.6}
 .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-bottom:14px}
-.sp{background:#fff;border:1.5px solid rgba(0,0,0,.1);border-radius:12px;padding:12px 6px;cursor:pointer;text-align:center;transition:all .15s;user-select:none}
+.sp{background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:11px 6px;cursor:pointer;text-align:center}
 .sp.sel{border-width:2px}
-.sp:active{transform:scale(.97)}
-.sp-ico{font-size:22px;margin-bottom:4px}
+.sp:active{opacity:.8}
+.sp-ico{font-size:22px;margin-bottom:3px}
 .sp-name{font-size:11px;font-weight:600}
-.ninp{width:100%;padding:11px 14px;border-radius:8px;border:1px solid rgba(0,0,0,.18);background:#fff;font-size:14px;color:#111;margin-bottom:10px;outline:none}
-.ninp:focus{border-color:#185FA5}
-.btn-login{width:100%;padding:13px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
-.btn-login:disabled{opacity:.4;cursor:not-allowed}
-.pages{flex:1}
-.page{display:none;padding:10px;overflow-y:auto;height:calc(100vh - 115px)}
+.ninp{width:100%;padding:11px 14px;border-radius:8px;border:1.5px solid #d1d5db;font-size:14px;margin-bottom:10px;outline:none}
+.ninp:focus{border-color:#1d4ed8}
+.btn{width:100%;padding:13px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:#1d4ed8;color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-ghost{background:#fff;color:#6b7280;border:1.5px solid #d1d5db;margin-top:8px}
+
+/* MAIN */
+.main{display:none}
+.pages{background:#f0f0f2}
+.page{display:none;padding:10px;overflow-y:auto;max-height:calc(100vh - 115px)}
 .page.on{display:block}
-.bnav{background:#fff;border-top:.5px solid rgba(0,0,0,.1);display:flex;position:sticky;bottom:0;z-index:20}
+
+/* BNAV */
+.bnav{background:#fff;border-top:1px solid #e5e7eb;display:flex;position:sticky;bottom:0;z-index:20}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:7px 2px 10px;border:none;background:transparent;cursor:pointer;gap:2px}
 .nb-ico{font-size:18px;line-height:1}
-.nb-lbl{font-size:9px;color:#999}
-.nb.on .nb-lbl{color:#185FA5;font-weight:600}
-.card{background:#fff;border:.5px solid rgba(0,0,0,.1);border-radius:12px;margin-bottom:8px;overflow:hidden}
-.card-head{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
-.card-head:active{background:#f7f7f8}
-.ch-l{display:flex;align-items:flex-start;gap:8px}
-.ch-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:3px}
-.ch-name{font-size:12px;font-weight:600;color:#111}
-.ch-sub{font-size:10px;color:#555;margin-top:1px}
-.ch-r{display:flex;align-items:center;gap:5px}
-.pct-sm{font-size:12px;font-weight:600}
-.mbar{width:44px;height:4px;background:rgba(0,0,0,.1);border-radius:2px;overflow:hidden}
-.mfill{height:100%;border-radius:2px;transition:width .4s}
-.chev{font-size:10px;color:#999;transition:transform .2s;margin-left:2px}
+.nb-lbl{font-size:9px;color:#9ca3af}
+.nb.on .nb-lbl{color:#1d4ed8;font-weight:700}
+
+/* CARDS */
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;margin-bottom:8px;overflow:hidden}
+.card-hd{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.card-hd:active{background:#f9fafb}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.cname{font-size:12px;font-weight:700;color:#111;margin-left:8px}
+.csub{font-size:10px;color:#6b7280;margin-top:1px;margin-left:8px}
+.cl{display:flex;align-items:flex-start}
+.cr{display:flex;align-items:center;gap:5px}
+.cpct{font-size:12px;font-weight:700}
+.mbar{width:44px;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden}
+.mfill{height:100%;border-radius:2px}
+.chev{font-size:10px;color:#9ca3af;margin-left:2px;display:inline-block}
 .chev.op{transform:rotate(90deg)}
-.tl{border-top:.5px solid rgba(0,0,0,.1)}
-/* TASK ROW */
-.tr{border-bottom:.5px solid rgba(0,0,0,.07);padding:0}
-.tr:last-child{border-bottom:none}
-.tr-main{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;user-select:none}
-.tr.can .tr-main{cursor:pointer}
-.tr.can .tr-main:active{background:#f7f7f8}
-.chk{width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(0,0,0,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .15s;background:#fff}
-.chk.done{background:#0F6E56;border-color:#0F6E56;color:#fff}
-.chk.odone{background:#B5D4F4;border-color:#185FA5;color:#0C447C}
-.task-info{flex:1;min-width:0}
+
+/* TASKS */
+.tlist{border-top:1px solid #f3f4f6}
+.trow{border-bottom:1px solid #f3f4f6;padding:9px 12px;display:flex;align-items:flex-start;gap:8px}
+.trow:last-child{border-bottom:none}
+.trow.can{cursor:pointer}
+.trow.can:active{background:#f9fafb}
+.chk{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;background:#fff}
+.chk.done{background:#15803d;border-color:#15803d;color:#fff}
+.chk.odone{background:#dbeafe;border-color:#1d4ed8;color:#1e40af}
+.tinfo{flex:1;min-width:0}
 .ttxt{font-size:11px;line-height:1.5;color:#111}
-.ttxt.done{color:#999;text-decoration:line-through}
-.task-meta{font-size:10px;color:#0F6E56;margin-top:3px;display:flex;align-items:center;gap:4px}
-.task-meta.other{color:#185FA5}
-.tlock{font-size:9px;color:#999;margin-top:2px}
-/* NOTE */
-.note-wrap{padding:0 12px 8px 42px}
-.note-inp{width:100%;padding:6px 9px;border-radius:6px;border:.5px solid rgba(0,0,0,.15);background:#f7f7f8;font-size:11px;color:#333;outline:none;resize:none;font-family:inherit;line-height:1.5}
-.note-inp:focus{border-color:#185FA5;background:#fff}
-.note-saved{font-size:9px;color:#0F6E56;margin-top:3px}
-.note-display{font-size:10px;color:#555;padding:0 12px 7px 42px;line-height:1.5;font-style:italic}
+.ttxt.done{color:#9ca3af;text-decoration:line-through}
+.tmeta{font-size:9px;margin-top:3px}
+.tlock{font-size:9px;color:#9ca3af;margin-top:2px}
+.note-w{padding:0 12px 8px 42px}
+.note-inp{width:100%;padding:6px 9px;border-radius:6px;border:1px solid #d1d5db;background:#f9fafb;font-size:11px;color:#333;outline:none;resize:none;font-family:inherit}
+.note-inp:focus{border-color:#1d4ed8;background:#fff}
+.note-disp{font-size:10px;color:#6b7280;padding:0 12px 7px 42px;font-style:italic}
+
 /* STATS */
-.sgrid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px}
-.sc{background:#f7f7f8;border-radius:8px;padding:10px 12px}
-.sl{font-size:10px;color:#555;margin-bottom:3px}
-.sn{font-size:22px;font-weight:600;color:#111}
-.ss{font-size:10px;color:#999;margin-top:1px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.sc{background:#f9fafb;border-radius:8px;padding:10px 12px;border:1px solid #e5e7eb}
+.sl{font-size:10px;color:#6b7280;margin-bottom:3px}
+.sn{font-size:22px;font-weight:700;color:#111}
+.ss{font-size:10px;color:#9ca3af;margin-top:1px}
 .hero{border-radius:12px;padding:14px;margin-bottom:10px;color:#fff}
-.hero-lbl{font-size:11px;opacity:.8}
-.hero-name{font-size:16px;font-weight:600;margin-top:2px}
-.hero-pct{font-size:36px;font-weight:600;margin-top:4px}
 .hero-bar{height:6px;background:rgba(0,0,0,.15);border-radius:3px;overflow:hidden;margin-top:8px}
-.hero-bfill{height:100%;border-radius:3px;background:rgba(255,255,255,.7);transition:width .4s}
-.hero-info{font-size:10px;opacity:.75;margin-top:5px}
-.fi{display:flex;gap:8px;padding:8px 12px;border-bottom:.5px solid rgba(0,0,0,.07)}
+.hero-bf{height:100%;border-radius:3px;background:rgba(255,255,255,.7)}
+.fi{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid #f3f4f6}
 .fi:last-child{border-bottom:none}
 .fdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.fwho{font-size:11px;font-weight:600;color:#111}
-.ftxt{font-size:11px;color:#555;line-height:1.4;margin-top:1px}
-.ftime{font-size:10px;color:#999;margin-top:2px}
-.opill{display:inline-flex;align-items:center;gap:4px;background:#f7f7f8;border:.5px solid rgba(0,0,0,.1);border-radius:20px;padding:3px 8px;font-size:10px;color:#555;margin:0 3px 5px 0}
+.cd{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.chip{font-size:11px;color:#92400e;background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:7px 11px;margin-bottom:10px;line-height:1.5}
+.opill{display:inline-flex;align-items:center;gap:4px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:20px;padding:3px 8px;font-size:10px;color:#6b7280;margin:0 3px 5px 0}
 .opip{width:5px;height:5px;border-radius:50%}
-.mybadge{font-size:9px;background:#eff6ff;color:#1a56d6;padding:1px 5px;border-radius:10px;margin-left:3px}
+.mybadge{font-size:9px;background:#dbeafe;color:#1e40af;padding:1px 5px;border-radius:10px;margin-left:3px}
+.sec-lbl{font-size:10px;font-weight:700;color:#9ca3af;padding:3px 2px 6px;letter-spacing:.04em}
+.dead-late{font-size:9px;color:#fff;background:#ef4444;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block}
+.dead-warn{font-size:9px;color:#fff;background:#d97706;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block}
+.by-info{font-size:9px;color:#15803d;margin-top:3px}
+
+/* CHAT */
 .chat-list{padding:8px 0}
 .mr{display:flex;gap:6px;padding:5px 10px;align-items:flex-end}
 .mr.me{flex-direction:row-reverse}
 .mav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;color:#fff}
 .mb{max-width:78%;padding:8px 11px;border-radius:12px;font-size:12px;line-height:1.5}
-.mb.mine{background:#eff6ff;color:#1a56d6;border-bottom-right-radius:3px}
-.mb.other{background:#f7f7f8;color:#111;border-bottom-left-radius:3px}
-.mwho{font-size:9px;color:#999;margin-top:2px}
-.mwho.me-who{text-align:right}
-.chat-bar{background:#fff;border-top:.5px solid rgba(0,0,0,.1);padding:8px 10px;display:flex;gap:6px;position:sticky;bottom:0}
-.ci{flex:1;padding:9px 12px;border-radius:8px;border:1px solid rgba(0,0,0,.18);background:#fff;font-size:12px;color:#111;outline:none}
-.ci:focus{border-color:#185FA5}
-.cs{padding:9px 16px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
-.sec-lbl{font-size:10px;font-weight:600;color:#999;padding:3px 2px 6px;letter-spacing:.04em}
-.empty{text-align:center;padding:32px 16px;font-size:12px;color:#999}
+.mb.mine{background:#dbeafe;color:#1e40af;border-bottom-right-radius:3px}
+.mb.other{background:#f3f4f6;color:#111;border-bottom-left-radius:3px}
+.mwho{font-size:9px;color:#9ca3af;margin-top:2px}
+.mwho.mw{text-align:right}
+.chat-bar{background:#fff;border-top:1px solid #e5e7eb;padding:8px 10px;display:flex;gap:6px;position:sticky;bottom:0}
+.ci{flex:1;padding:9px 12px;border-radius:8px;border:1.5px solid #d1d5db;font-size:12px;outline:none}
+.ci:focus{border-color:#1d4ed8}
+.cs{padding:9px 16px;background:#1d4ed8;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
+.empty{text-align:center;padding:40px 16px;color:#9ca3af;font-size:12px}
 .toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;border-radius:20px;padding:7px 18px;font-size:11px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100;white-space:nowrap}
 .toast.show{opacity:1}
-.cd-bar{background:#eff6ff;border:.5px solid rgba(24,95,165,.2);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
-.cd-l{font-size:11px;color:#185FA5}
-.cd-date{font-size:13px;font-weight:600;color:#185FA5;margin-top:2px}
-.cd-num{font-size:30px;font-weight:700;color:#185FA5}
-.cd-unit{font-size:10px;color:#185FA5;opacity:.7}
-.theme-chip{font-size:11px;color:#92400e;background:#fff8ec;border:.5px solid rgba(146,64,14,.2);border-radius:8px;padding:7px 11px;margin-bottom:10px;line-height:1.5}
+
+/* ADMIN */
+.admin-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
+.admin-box{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:340px}
 </style>
 </head>
 <body>
 <div class="app" id="app">
+
+<!-- TOPBAR -->
 <div class="top" id="topbar" style="display:none">
-  <div class="top-row">
+  <div class="top-r">
     <div>
       <div class="top-title">Koordinator Musda GGBI Jatengbagut</div>
       <div class="top-sub">8 Juni 2026 &bull; Aula Frank Lewis, STT Baptis Indonesia</div>
     </div>
     <div style="text-align:right">
-      <div class="sync-row"><div class="sdot spin" id="sdot"></div><span class="slbl" id="slbl">...</span></div>
+      <div><span class="sdot spin" id="sdot"></span><span class="slbl" id="slbl">...</span></div>
       <div class="top-pct" id="tpct">0%</div>
-      <div class="logout-btn" onclick="doLogout()">&#128682; Keluar</div>
+      <div class="logout" onclick="doLogout()">&#128682; Keluar</div>
     </div>
   </div>
-  <div class="prog-bar"><div class="prog-fill" id="tpfill" style="width:0%"></div></div>
+  <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
 </div>
 
-<div id="login-screen">
-  <div class="login-wrap">
-    <div class="login-ico">&#9997;&#65039;</div>
-    <div class="login-title">Koordinator Musda GGBI</div>
-    <div class="login-sub">Pilih seksi &amp; masukkan nama Anda.<br>Progress tersinkron real-time ke semua koordinator.</div>
-    <div class="sgrid" id="seksi-grid"></div>
-    <input class="ninp" id="ninp" placeholder="Nama lengkap Anda..." maxlength="30" oninput="chkLogin()">
-    <button class="btn-login" id="btnlogin" onclick="doLogin()" disabled>Masuk &#10140;</button>
-    <div style="margin-top:12px;text-align:center">
-      <div style="font-size:10px;color:#999;margin-bottom:6px">— atau —</div>
-      <button onclick="showAdminLogin()" style="background:none;border:.5px solid rgba(0,0,0,.2);border-radius:8px;padding:8px 20px;font-size:11px;color:#555;cursor:pointer;width:100%">&#128274; Masuk sebagai Ketua Pelaksana</button>
-    </div>
-  </div>
+<!-- LOGIN -->
+<div class="login" id="login-screen" style="display:none">
+  <div style="font-size:28px;margin-bottom:8px">&#9997;&#65039;</div>
+  <h2>Koordinator Musda GGBI</h2>
+  <p>Pilih seksi &amp; masukkan nama.<br>Progress tersinkron real-time ke semua koordinator.</p>
+  <div class="sgrid" id="seksi-grid"></div>
+  <input class="ninp" id="ninp" placeholder="Nama lengkap Anda..." maxlength="30" oninput="chkLogin()">
+  <button class="btn" id="btnlogin" onclick="doLogin()" disabled>Masuk &#10140;</button>
+  <button class="btn btn-ghost" onclick="showAdminModal()">&#128274; Masuk sebagai Ketua Pelaksana</button>
 </div>
 
-<!-- ADMIN LOGIN MODAL -->
-<div id="admin-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:340px">
+<!-- ADMIN MODAL -->
+<div class="admin-modal" id="admin-modal">
+  <div class="admin-box">
     <div style="text-align:center;margin-bottom:16px">
-      <div style="font-size:28px;margin-bottom:6px">&#128274;</div>
-      <div style="font-size:15px;font-weight:600">Masuk sebagai Ketua Pelaksana</div>
-      <div style="font-size:11px;color:#555;margin-top:4px">Masukkan nama dan PIN ketua pelaksana</div>
+      <div style="font-size:26px;margin-bottom:6px">&#128274;</div>
+      <div style="font-size:15px;font-weight:700">Ketua Pelaksana</div>
+      <div style="font-size:11px;color:#6b7280;margin-top:4px">Masukkan nama dan PIN</div>
     </div>
-    <input id="admin-name" class="ninp" placeholder="Nama Ketua Pelaksana..." maxlength="30" style="margin-bottom:8px">
-    <input id="admin-pin" class="ninp" type="password" placeholder="PIN (4 digit)..." maxlength="6" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')doAdminLogin()">
-    <button onclick="doAdminLogin()" style="width:100%;padding:11px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:8px">Masuk sebagai Ketua &#10140;</button>
-    <button onclick="closeAdminModal()" style="width:100%;padding:9px;background:none;border:.5px solid rgba(0,0,0,.15);border-radius:8px;font-size:12px;color:#555;cursor:pointer">Batal</button>
+    <input class="ninp" id="admin-name" placeholder="Nama Ketua Pelaksana..." maxlength="30">
+    <input class="ninp" id="admin-pin" type="password" placeholder="PIN (4 digit)..." maxlength="6" onkeydown="if(event.key==='Enter')doAdminLogin()">
+    <button class="btn" onclick="doAdminLogin()">Masuk sebagai Ketua &#10140;</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="closeAdminModal()">Batal</button>
   </div>
 </div>
 
-<div id="main-screen" style="display:none">
+<!-- MAIN -->
+<div class="main" id="main-screen">
   <div class="pages">
-    <div class="page on" id="pg-home"><div id="hc"></div></div>
-    <div class="page" id="pg-mine"><div style="height:8px"></div><div id="mc"></div></div>
-    <div class="page" id="pg-all"><div style="height:8px"></div><div id="ac"></div></div>
+    <div class="page on" id="pg-home"><div id="hc"><div class="empty">Memuat...</div></div></div>
+    <div class="page" id="pg-mine"><div style="height:8px"></div><div id="mc"><div class="empty">Memuat...</div></div></div>
+    <div class="page" id="pg-all"><div style="height:8px"></div><div id="ac"><div class="empty">Memuat...</div></div></div>
     <div class="page" id="pg-chat">
-      <div class="chat-list" id="chatlist"></div>
+      <div class="chat-list" id="chatlist"><div class="empty">Belum ada pesan.</div></div>
       <div class="chat-bar">
         <input class="ci" id="cinp" placeholder="Pesan ke semua koordinator..." maxlength="200">
         <button class="cs" onclick="sendChat()">Kirim</button>
       </div>
     </div>
-    <div class="page" id="pg-admin"><div style="height:8px"></div><div id="admc"></div></div>
+    <div class="page" id="pg-admin"><div style="height:8px"></div><div id="admc"><div class="empty">Memuat...</div></div></div>
   </div>
   <div class="bnav">
-    <button class="nb on" onclick="nav('home',this)"><span class="nb-ico">&#127968;</span><span class="nb-lbl">Beranda</span></button>
-    <button class="nb" id="nb-mine" onclick="nav('mine',this)"><span class="nb-ico">&#9989;</span><span class="nb-lbl">Seksi Saya<span id="nb-mine-badge" style="display:none;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px;color:#fff"></span></span></button>
-    <button class="nb" onclick="nav('all',this)"><span class="nb-ico">&#128101;</span><span class="nb-lbl">Semua Seksi</span></button>
-    <button class="nb" onclick="nav('chat',this)"><span class="nb-ico">&#128172;</span><span class="nb-lbl">Chat<span id="cbadge" style="display:none;background:#e24b4a;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px"></span></span></button>
+    <button class="nb on" id="nb-home" onclick="nav('home',this)"><span class="nb-ico">&#127968;</span><span class="nb-lbl">Beranda</span></button>
+    <button class="nb" id="nb-mine" onclick="nav('mine',this)"><span class="nb-ico">&#9989;</span><span class="nb-lbl">Seksi Saya</span></button>
+    <button class="nb" id="nb-all" onclick="nav('all',this)"><span class="nb-ico">&#128101;</span><span class="nb-lbl">Semua Seksi</span></button>
+    <button class="nb" id="nb-chat" onclick="nav('chat',this)"><span class="nb-ico">&#128172;</span><span class="nb-lbl">Chat<span id="cbadge" style="display:none;background:#ef4444;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px"></span></span></button>
     <button class="nb" id="nb-admin" style="display:none" onclick="nav('admin',this)"><span class="nb-ico">&#128274;</span><span class="nb-lbl">Ketua</span></button>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
-</div>
+</div><!-- /app -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-database-compat.min.js"></script>
 <script>
-const FIREBASE_CONFIG = {
+// ─── CONFIG ─────────────────────────────────────────────────────
+var FB_CFG = {
   apiKey: "AIzaSyALFggW4GzJHvncJJRoeLMJ4exb7ghGQbM",
   authDomain: "musda-jatengbagut.firebaseapp.com",
   databaseURL: "https://musda-jatengbagut-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -210,693 +217,568 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "815427801973",
   appId: "1:815427801973:web:278d88b2578892cd4ef93c"
 };
+var ADMIN_PIN = "1234";
+var ADMIN_ID  = "ketua_pelaksana";
 
-// ── ADMIN CONFIG ─────────────────────────────────────────────
-const ADMIN_PIN = "1234"; // Ganti PIN ini sesuai kebutuhan
-const ADMIN_ID  = "ketua_pelaksana";
-
-// ── DEADLINE PER MINGGU ──────────────────────────────────────
-const WEEK_DEADLINES = [
-  {week:0, label:'Minggu 1', deadline: new Date('2026-05-03T23:59:59')},
-  {week:1, label:'Minggu 2', deadline: new Date('2026-05-10T23:59:59')},
-  {week:2, label:'Minggu 3', deadline: new Date('2026-05-17T23:59:59')},
-  {week:3, label:'Minggu 4', deadline: new Date('2026-05-24T23:59:59')},
-  {week:4, label:'Minggu 5', deadline: new Date('2026-05-31T23:59:59')},
-  {week:5, label:'Minggu 6', deadline: new Date('2026-06-07T23:59:59')},
-];
-// Task index 0-5 = Minggu 1, dst (6 task per minggu per seksi)
-function getTaskDeadline(taskIdx){ return WEEK_DEADLINES[Math.floor(taskIdx/1)]?.deadline||null; }
-// Setiap seksi punya 6 task, masing-masing masuk ke minggu berdasarkan index
-// task 0 = week 0, task 1 = week 1, dst
-function getTaskWeek(taskIdx){ return WEEK_DEADLINES[taskIdx] || null; }
-function isOverdue(taskIdx){ 
-  const w=getTaskWeek(taskIdx);
-  return w && new Date() > w.deadline;
-}
-function daysUntilDeadline(taskIdx){
-  const w=getTaskWeek(taskIdx);
-  if(!w) return null;
-  return Math.ceil((w.deadline - new Date())/864e5);
-}
-
-const SEKSI=[
-  {id:'acara',name:'Acara & Persidangan',ico:'&#127909;',c:'#185FA5',li:'#E6F1FB',tasks:['Susun rundown detail menit per menit','Siapkan tata tertib & mekanisme sidang','Koordinasi pimpinan sidang & notulis','Gladi bersih seluruh susunan acara','Briefing panitia acara H-1','Pastikan semua sesi berjalan tepat waktu']},
-  {id:'ibadah',name:'Ibadah & Rohani',ico:'&#128214;',c:'#534AB7',li:'#EEEDFE',tasks:['Koordinasi pendeta / pembicara firman','Susun liturgi ibadah pembukaan','Koordinasi tim musik & worship leader','Siapkan PPT, mic & perlengkapan ibadah','Gladi ibadah pembukaan & penutup','Siapkan doa berkat kepengurusan baru']},
-  {id:'perlengkapan',name:'Perlengkapan & Logistik',ico:'&#128295;',c:'#854F0B',li:'#FAEEDA',tasks:['Konfirmasi booking Aula Frank Lewis','Siapkan & cek sound system dan mic','Siapkan LCD proyektor & layar','Atur tata letak meja & kursi 173 peserta','Pasang dekorasi & backdrop Musda','Test semua peralatan teknis H-1']},
-  {id:'konsumsi',name:'Konsumsi',ico:'&#9749;',c:'#993C1D',li:'#FAECE7',tasks:['Koordinasi vendor coffee time 08.00','Konfirmasi menu makan siang 173 orang','Siapkan air mineral & minuman sidang','Atur titik distribusi konsumsi di aula','Briefing tim konsumsi hari-H','Pastikan konsumsi tersedia tepat waktu']},
-  {id:'registrasi',name:'Registrasi & Tamu',ico:'&#128203;',c:'#0F6E56',li:'#E1F5EE',tasks:['Rekap data utusan gereja induk (110 org)','Rekap data utusan cabang & BPW (22 org)','Cetak name tag semua peserta','Siapkan meja registrasi & goodie bag','Briefing petugas registrasi','Kelola absensi & kuorum hari-H']},
-  {id:'dokumentasi',name:'Dokumentasi & Publikasi',ico:'&#128247;',c:'#0C447C',li:'#B5D4F4',tasks:['Konfirmasi fotografer & videografer','Buat konten promosi Musda (poster dll)','Siapkan peralatan foto & video','Live update media sosial hari-H','Dokumentasi semua sesi penting','Kirim laporan foto ke BPD pasca Musda']},
-  {id:'keamanan',name:'Keamanan',ico:'&#128737;',c:'#5F5E5A',li:'#F1EFE8',tasks:['Koordinasi petugas keamanan (2 orang)','Siapkan sistem & area parkir kendaraan','Siapkan kotak P3K & obat-obatan','Briefing tim keamanan H-1','Atur akses masuk & keamanan aula','Pantau ketertiban selama Musda']},
+var SEKSI = [
+  {id:'acara',       name:'Acara & Persidangan',     ico:'&#127909;', c:'#1d4ed8', tasks:['Susun rundown detail menit per menit','Siapkan tata tertib & mekanisme sidang','Koordinasi pimpinan sidang & notulis','Gladi bersih seluruh susunan acara','Briefing panitia acara H-1','Pastikan semua sesi berjalan tepat waktu']},
+  {id:'ibadah',      name:'Ibadah & Rohani',          ico:'&#128214;', c:'#7c3aed', tasks:['Koordinasi pendeta / pembicara firman','Susun liturgi ibadah pembukaan','Koordinasi tim musik & worship leader','Siapkan PPT, mic & perlengkapan ibadah','Gladi ibadah pembukaan & penutup','Siapkan doa berkat kepengurusan baru']},
+  {id:'perlengkapan',name:'Perlengkapan & Logistik',  ico:'&#128295;', c:'#92400e', tasks:['Konfirmasi booking Aula Frank Lewis','Siapkan & cek sound system dan mic','Siapkan LCD proyektor & layar','Atur tata letak meja & kursi 173 peserta','Pasang dekorasi & backdrop Musda','Test semua peralatan teknis H-1']},
+  {id:'konsumsi',    name:'Konsumsi',                 ico:'&#9749;',   c:'#b91c1c', tasks:['Koordinasi vendor coffee time 08.00','Konfirmasi menu makan siang 173 orang','Siapkan air mineral & minuman sidang','Atur titik distribusi konsumsi di aula','Briefing tim konsumsi hari-H','Pastikan konsumsi tersedia tepat waktu']},
+  {id:'registrasi',  name:'Registrasi & Tamu',        ico:'&#128203;', c:'#065f46', tasks:['Rekap data utusan gereja induk (110 org)','Rekap data utusan cabang & BPW (22 org)','Cetak name tag semua peserta','Siapkan meja registrasi & goodie bag','Briefing petugas registrasi','Kelola absensi & kuorum hari-H']},
+  {id:'dokumentasi', name:'Dokumentasi & Publikasi',  ico:'&#128247;', c:'#1e3a8a', tasks:['Konfirmasi fotografer & videografer','Buat konten promosi Musda (poster dll)','Siapkan peralatan foto & video','Live update media sosial hari-H','Dokumentasi semua sesi penting','Kirim laporan foto ke BPD pasca Musda']},
+  {id:'keamanan',    name:'Keamanan',                 ico:'&#128737;', c:'#374151', tasks:['Koordinasi petugas keamanan (2 orang)','Siapkan sistem & area parkir kendaraan','Siapkan kotak P3K & obat-obatan','Briefing tim keamanan H-1','Atur akses masuk & keamanan aula','Pantau ketertiban selama Musda']}
 ];
 
-let ME=null,db=null,openSec={},curPage='home',lastChatLen=0,noteTimers={};
+var DEADLINES = [
+  {label:'Minggu 1', dl: new Date('2026-05-03T23:59:59')},
+  {label:'Minggu 2', dl: new Date('2026-05-10T23:59:59')},
+  {label:'Minggu 3', dl: new Date('2026-05-17T23:59:59')},
+  {label:'Minggu 4', dl: new Date('2026-05-24T23:59:59')},
+  {label:'Minggu 5', dl: new Date('2026-05-31T23:59:59')},
+  {label:'Minggu 6', dl: new Date('2026-06-07T23:59:59')}
+];
 
-// UID deterministik — nama + seksi = orang yang sama di device manapun
-function makeUID(name, seksiId){
-  if(seksiId===ADMIN_ID) return ADMIN_ID;
-  return seksiId+'__'+name.toLowerCase().trim().replace(/\s+/g,'_');
+// ─── STATE ──────────────────────────────────────────────────────
+var ME = null;
+var DB = null;
+var DATA = {};
+var curPage = 'home';
+var openSec = {};
+var lastChatLen = 0;
+var noteTimers = {};
+
+// ─── INIT FIREBASE ──────────────────────────────────────────────
+try {
+  firebase.initializeApp(FB_CFG);
+  DB = firebase.database();
+} catch(e) { console.error('Firebase init:', e); }
+
+// ─── HELPERS ────────────────────────────────────────────────────
+function ts() { return Date.now(); }
+
+function fmtTime(t) {
+  if (!t) return '';
+  var d = new Date(t);
+  var dd = d.getDate();
+  var mm = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'][d.getMonth()];
+  var hh = d.getHours(); var mi = d.getMinutes();
+  return dd+' '+mm+' pukul '+(hh<10?'0':'')+hh+':'+(mi<10?'0':'')+mi;
 }
-function isAdmin(){return ME && ME.seksiId===ADMIN_ID;}
 
-try{
-  firebase.initializeApp(FIREBASE_CONFIG);
-  db=firebase.database();
-}catch(e){console.error(e);}
-
-function ts(){return Date.now();}
-function fmtTime(t){
-  const d=new Date(t);
-  return d.toLocaleDateString('id-ID',{day:'numeric',month:'short'})+' pukul '+
-    d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-}
-function ago(t){
-  const d=Math.floor((ts()-t)/1e3);
-  if(d<5)return'baru saja';
-  if(d<60)return d+'d lalu';
-  if(d<3600)return Math.floor(d/60)+'m lalu';
+function ago(t) {
+  var d = Math.floor((ts()-t)/1000);
+  if (d < 5)    return 'baru saja';
+  if (d < 60)   return d+'d lalu';
+  if (d < 3600) return Math.floor(d/60)+'m lalu';
   return Math.floor(d/3600)+'j lalu';
 }
-function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
-function getSeksi(id){return SEKSI.find(s=>s.id===id);}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-function setSync(s,txt){
-  const d=document.getElementById('sdot'),l=document.getElementById('slbl');
-  if(!d||!l)return;
-  d.className='sdot '+(s==='ok'?'ok':s==='err'?'':'spin');
-  l.textContent=txt;
+
+function ini(n) {
+  return (n||'?').split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase();
 }
 
-// ── LOGIN ──────────────────────────────────────────────────────
-function pickSeksi(el){
-  document.querySelectorAll('.sp').forEach(e=>{e.classList.remove('sel');e.style.borderColor='rgba(0,0,0,.1)';});
-  el.classList.add('sel');el.style.borderColor=el.dataset.c;chkLogin();
-}
-function chkLogin(){
-  const sel=document.querySelector('.sp.sel');
-  const n=document.getElementById('ninp').value.trim();
-  document.getElementById('btnlogin').disabled=!(sel&&n.length>=2);
+function getSeksi(id) {
+  for (var i=0;i<SEKSI.length;i++) { if(SEKSI[i].id===id) return SEKSI[i]; }
+  return null;
 }
 
-function doLogin(){
-  const sel=document.querySelector('.sp.sel');
-  const n=document.getElementById('ninp').value.trim();
-  if(!sel||!n)return;
+function makeUID(name, sid) {
+  if (sid===ADMIN_ID) return ADMIN_ID;
+  return sid+'__'+name.toLowerCase().replace(/\s+/g,'_');
+}
 
-  const uid=makeUID(n, sel.dataset.id);
+function isAdmin() { return ME && ME.sid===ADMIN_ID; }
 
-  if(db){
-    // Cek apakah nama ini sudah terdaftar di seksi LAIN
-    db.ref('online').once('value').then(snap=>{
-      const online=snap.val()||{};
-      const nameLower=n.toLowerCase().trim();
-      const conflictSeksi=Object.values(online).find(u=>
-        u.name.toLowerCase().trim()===nameLower &&
-        u.seksi !== sel.dataset.id &&
-        (ts()-u.ts)<300000 // aktif dalam 5 menit terakhir
-      );
-      if(conflictSeksi){
-        const s=getSeksi(conflictSeksi.seksi);
-        if(!confirm(`"${n}" sedang aktif di seksi ${s?.name}. Tetap masuk di seksi ${getSeksi(sel.dataset.id)?.name}?`))return;
-      }
-      ME={uid, name:n, seksiId:sel.dataset.id};
-      localStorage.setItem('musda_me_v3',JSON.stringify(ME));
-      startApp();
-    });
-  } else {
-    ME={uid, name:n, seksiId:sel.dataset.id};
-    localStorage.setItem('musda_me_v3',JSON.stringify(ME));
-    startApp();
+function setSync(ok, txt) {
+  var d=document.getElementById('sdot'), l=document.getElementById('slbl');
+  if (!d||!l) return;
+  d.className = 'sdot'+(ok?' ok':' spin');
+  l.textContent = txt;
+}
+
+function showToast(msg) {
+  var t=document.getElementById('toast');
+  t.innerHTML = msg; t.className='toast show';
+  setTimeout(function(){t.className='toast';}, 2200);
+}
+
+function daysLeft(taskIdx) {
+  if (taskIdx < 0 || taskIdx >= DEADLINES.length) return null;
+  return Math.ceil((DEADLINES[taskIdx].dl - new Date()) / 864e5);
+}
+
+// ─── SEKSI GRID ─────────────────────────────────────────────────
+function buildSeksiGrid() {
+  var g = document.getElementById('seksi-grid');
+  if (!g) return;
+  var h = '';
+  for (var i=0;i<SEKSI.length;i++) {
+    var s=SEKSI[i];
+    h += '<div class="sp" data-id="'+s.id+'" data-c="'+s.c+'" onclick="pickSeksi(this)">';
+    h += '<div class="sp-ico">'+s.ico+'</div>';
+    h += '<div class="sp-name" style="color:'+s.c+'">'+s.name+'</div>';
+    h += '</div>';
   }
+  g.innerHTML = h;
 }
 
-function doLogout(){
-  if(!confirm('Keluar dari aplikasi?'))return;
-  if(db&&ME)db.ref('online/'+ME.uid).remove();
-  localStorage.removeItem('musda_me_v3');
-  ME=null;
-  document.getElementById('main-screen').style.display='none';
+function pickSeksi(el) {
+  var all = document.querySelectorAll('.sp');
+  for (var i=0;i<all.length;i++) { all[i].classList.remove('sel'); all[i].style.borderColor='#e5e7eb'; }
+  el.classList.add('sel'); el.style.borderColor = el.dataset.c;
+  chkLogin();
+}
+
+function chkLogin() {
+  var sel = document.querySelector('.sp.sel');
+  var n = document.getElementById('ninp').value.trim();
+  document.getElementById('btnlogin').disabled = !(sel && n.length>=2);
+}
+
+// ─── LOGIN / LOGOUT ─────────────────────────────────────────────
+function doLogin() {
+  var sel = document.querySelector('.sp.sel');
+  var n = (document.getElementById('ninp').value||'').trim();
+  if (!sel||!n) return;
+  ME = {uid: makeUID(n,sel.dataset.id), name:n, sid:sel.dataset.id};
+  localStorage.setItem('musda_v8', JSON.stringify(ME));
+  startApp();
+}
+
+function showAdminModal() {
+  document.getElementById('admin-modal').style.display='flex';
+  setTimeout(function(){document.getElementById('admin-name').focus();}, 100);
+}
+function closeAdminModal() {
+  document.getElementById('admin-modal').style.display='none';
+  document.getElementById('admin-pin').value='';
+}
+function doAdminLogin() {
+  var n = (document.getElementById('admin-name').value||'').trim();
+  var p = (document.getElementById('admin-pin').value||'').trim();
+  if (!n) { alert('Masukkan nama.'); return; }
+  if (p !== ADMIN_PIN) { alert('PIN salah.'); return; }
+  closeAdminModal();
+  ME = {uid: ADMIN_ID, name:n, sid:ADMIN_ID, admin:true};
+  localStorage.setItem('musda_v8', JSON.stringify(ME));
+  startApp();
+}
+
+function doLogout() {
+  if (!confirm('Keluar dari aplikasi?')) return;
+  if (DB && ME) DB.ref('online/'+ME.uid).remove();
+  localStorage.removeItem('musda_v8');
+  ME = null; DATA = {};
+  document.getElementById('main-screen').className='main';
   document.getElementById('topbar').style.display='none';
   document.getElementById('login-screen').style.display='';
-  document.querySelectorAll('.sp').forEach(e=>{e.classList.remove('sel');e.style.borderColor='rgba(0,0,0,.1)';});
+  buildSeksiGrid();
   document.getElementById('ninp').value='';
   document.getElementById('btnlogin').disabled=true;
 }
 
-// ── APP ────────────────────────────────────────────────────────
-function startApp(){
+// ─── START APP ──────────────────────────────────────────────────
+function startApp() {
   document.getElementById('login-screen').style.display='none';
-  document.getElementById('main-screen').style.display='';
   document.getElementById('topbar').style.display='';
-  document.getElementById('cinp').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
-  // Show/hide admin tab and mine tab
-  if(isAdmin()){
-    document.getElementById('nb-admin').style.display='';
+  document.getElementById('main-screen').className='main';
+  document.getElementById('main-screen').style.display='block';
+
+  if (isAdmin()) {
     document.getElementById('nb-mine').style.display='none';
+    document.getElementById('nb-admin').style.display='';
   }
-  // Request notification permission
-  if('Notification' in window && Notification.permission==='default'){
-    setTimeout(()=>Notification.requestPermission(),2000);
-  }
-  // Start deadline checker
-  checkDeadlineAlerts();
-  setInterval(checkDeadlineAlerts, 60000); // cek setiap menit
 
-  if(!db){setSync('err','Mode offline');return;}
+  document.getElementById('cinp').addEventListener('keydown', function(e){
+    if (e.key==='Enter') sendChat();
+  });
 
-  const onlineRef=db.ref('online/'+ME.uid);
-  onlineRef.set({name:ME.name,seksi:ME.seksiId,color:getSeksi(ME.seksiId)?.c||'#888',ts:ts()});
-  onlineRef.onDisconnect().remove();
-  setInterval(()=>onlineRef.update({ts:ts()}),20000);
+  if (!DB) { setSync(false,'Offline'); return; }
 
-  db.ref('/').on('value',snap=>{
-    const d=snap.val()||{};
-    window.__D=d;
-    try{renderAll(d);}catch(e){console.error('Firebase render error:',e);}
-    const ol=Object.keys(d.online||{}).length;
-    setSync('ok', ol+' koordinator online');
-    const nc=Object.keys(d.chat||{}).length;
-    if(curPage!=='chat'&&nc>lastChatLen){
-      const b=document.getElementById('cbadge');b.style.display='';b.textContent='+'+(nc-lastChatLen);
+  var ref = DB.ref('online/'+ME.uid);
+  ref.set({name:ME.name, sid:ME.sid, color:ME.sid===ADMIN_ID?'#374151':(getSeksi(ME.sid)||{c:'#374151'}).c, ts:ts()});
+  ref.onDisconnect().remove();
+  setInterval(function(){ ref.update({ts:ts()}); }, 20000);
+
+  DB.ref('/').on('value', function(snap) {
+    DATA = snap.val() || {};
+    renderCurrent();
+    var ol = countOnline();
+    setSync(true, ol+' koordinator online');
+    var nc = DATA.chat ? Object.keys(DATA.chat).length : 0;
+    if (curPage!=='chat' && nc > lastChatLen) {
+      var b = document.getElementById('cbadge');
+      b.style.display=''; b.textContent='+'+(nc-lastChatLen);
     }
   });
+
+  if ('Notification' in window && Notification.permission==='default') {
+    setTimeout(function(){ Notification.requestPermission(); }, 2000);
+  }
+  setInterval(checkDeadlines, 60000);
 }
 
-function calcPct(d,sid){
-  const s=getSeksi(sid);if(!s)return 0;
-  const done=s.tasks.filter((_,i)=>(d.tasks||{})[sid+'_'+i]?.done).length;
+// ─── NAV ────────────────────────────────────────────────────────
+function nav(page, btn) {
+  var pages = document.querySelectorAll('.page');
+  for (var i=0;i<pages.length;i++) pages[i].classList.remove('on');
+  var nbs = document.querySelectorAll('.nb');
+  for (var i=0;i<nbs.length;i++) nbs[i].classList.remove('on');
+  var pg = document.getElementById('pg-'+page);
+  if (pg) pg.classList.add('on');
+  if (btn) btn.classList.add('on');
+  curPage = page;
+  if (page==='chat') {
+    document.getElementById('cbadge').style.display='none';
+    lastChatLen = DATA.chat ? Object.keys(DATA.chat).length : 0;
+  }
+  renderCurrent();
+}
+
+function renderCurrent() {
+  var pct = calcTotal();
+  var pf = document.getElementById('pfill');
+  var tp = document.getElementById('tpct');
+  if (pf) pf.style.width = pct+'%';
+  if (tp) tp.textContent = pct+'%';
+
+  if      (curPage==='home')  renderHome();
+  else if (curPage==='mine')  renderMine();
+  else if (curPage==='all')   renderAll();
+  else if (curPage==='chat')  renderChat();
+  else if (curPage==='admin') renderAdmin();
+}
+
+// ─── CALC ────────────────────────────────────────────────────────
+function getTasks() { return DATA.tasks || {}; }
+function getLocks() { return DATA.locks || {}; }
+function getNotes() { return DATA.notes || {}; }
+
+function taskDone(sid, idx) {
+  var t = getTasks()[sid+'_'+idx];
+  return !!(t && t.done);
+}
+
+function calcPct(sid) {
+  var s = getSeksi(sid); if (!s) return 0;
+  var done=0;
+  for (var i=0;i<s.tasks.length;i++) { if(taskDone(sid,i)) done++; }
   return Math.round(done/s.tasks.length*100);
 }
-function calcTotal(d){
-  const all=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i]?.done)));
-  return Math.round(all.filter(Boolean).length/all.length*100);
-}
-function onlineList(d){return Object.values(d.online||{}).filter(u=>(ts()-u.ts)<90000);}
 
-// Toggle task — simpan siapa & kapan
-async function toggleTask(sid,idx){
-  if(!ME||ME.seksiId!==sid)return;
-  // Cek apakah task dikunci oleh admin
-  const lockSnap=await db.ref('locks/'+sid+'_'+idx).get();
-  if(lockSnap.val()){
-    showToast('&#128274; Task ini dikunci oleh Ketua Pelaksana');
-    return;
+function calcTotal() {
+  var done=0, total=0;
+  for (var i=0;i<SEKSI.length;i++) {
+    var s=SEKSI[i];
+    total += s.tasks.length;
+    for (var j=0;j<s.tasks.length;j++) { if(taskDone(s.id,j)) done++; }
   }
-  const key=sid+'_'+idx;
-  const s=getSeksi(sid);
-  const ref=db.ref('tasks/'+key);
-  const snap=await ref.get();
-  const cur=snap.val()||{};
-  const isDone=!!cur.done;
+  return total>0 ? Math.round(done/total*100) : 0;
+}
 
-  if(!isDone){
-    // Centang: simpan siapa & kapan
-    await ref.set({done:true, by:ME.name, byColor:s.c, at:ts()});
-    await db.ref('activity').push({who:ME.name,seksi:s.name,c:s.c,
-      txt:`Selesai: "${s.tasks[idx]}"`,ts:ts()});
-    showToast('&#10003; Diselesaikan oleh '+ME.name);
+function countOnline() {
+  var ol = DATA.online || {};
+  var count=0, now=ts();
+  var keys = Object.keys(ol);
+  for (var i=0;i<keys.length;i++) { if((now - ol[keys[i]].ts) < 90000) count++; }
+  return count;
+}
+
+function getOnline() {
+  var ol = DATA.online || {};
+  var result=[]; var now=ts();
+  var keys = Object.keys(ol);
+  for (var i=0;i<keys.length;i++) {
+    if ((now - ol[keys[i]].ts) < 90000) result.push(ol[keys[i]]);
+  }
+  return result;
+}
+
+// ─── TOGGLE TASK ─────────────────────────────────────────────────
+function toggleTask(sid, idx) {
+  if (!ME || ME.sid!==sid) return;
+  var key = sid+'_'+idx;
+  if (getLocks()[key]) { showToast('&#128274; Task dikunci oleh Ketua'); return; }
+  var s = getSeksi(sid);
+  var isDone = taskDone(sid, idx);
+  var ref = DB.ref('tasks/'+key);
+  if (!isDone) {
+    ref.set({done:true, by:ME.name, at:ts()});
+    DB.ref('activity').push({who:ME.name, seksi:s.name, c:s.c, txt:'Selesai: "'+s.tasks[idx]+'"', ts:ts()});
+    showToast('&#10003; Task selesai!');
   } else {
-    // Batalkan centang
-    await ref.set({done:false, by:null, byColor:null, at:ts()});
-    await db.ref('activity').push({who:ME.name,seksi:s.name,c:s.c,
-      txt:`Dibatalkan: "${s.tasks[idx]}"`,ts:ts()});
+    ref.set({done:false, by:null, at:ts()});
+    DB.ref('activity').push({who:ME.name, seksi:s.name, c:s.c, txt:'Dibatalkan: "'+s.tasks[idx]+'"', ts:ts()});
     showToast('Task dibatalkan');
   }
 }
 
-// Simpan catatan per task (debounce 1.5 detik)
-function saveNote(key, val){
+// ─── SAVE NOTE ───────────────────────────────────────────────────
+function saveNote(key, val) {
   clearTimeout(noteTimers[key]);
-  noteTimers[key]=setTimeout(async()=>{
-    await db.ref('notes/'+key).set(val||null);
-    const el=document.getElementById('note-saved-'+key);
-    if(el){el.textContent='Tersimpan ✓';setTimeout(()=>{if(el)el.textContent='';},2000);}
-  },1500);
+  noteTimers[key] = setTimeout(function(){
+    DB.ref('notes/'+key).set(val||null);
+    var el = document.getElementById('ns-'+key);
+    if (el) { el.textContent='Tersimpan &#10003;'; setTimeout(function(){ if(el)el.textContent=''; },2000); }
+  }, 1500);
 }
 
-async function sendChat(){
-  const inp=document.getElementById('cinp');
-  const msg=inp.value.trim();if(!msg||!ME)return;
+// ─── SEND CHAT ───────────────────────────────────────────────────
+function sendChat() {
+  var inp = document.getElementById('cinp');
+  var msg = (inp.value||'').trim();
+  if (!msg||!ME) return;
   inp.value='';
-  await db.ref('chat').push({uid:ME.uid,name:ME.name,seksi:ME.seksiId,
-    c:getSeksi(ME.seksiId)?.c||'#888',msg,ts:ts()});
+  var s = getSeksi(ME.sid);
+  DB.ref('chat').push({uid:ME.uid, name:ME.name, sid:ME.sid, c:s?s.c:'#374151', msg:msg, ts:ts()});
 }
 
-function nav(page,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('pg-'+page).classList.add('on');
-  if(btn)btn.classList.add('on');
-  curPage=page;
-  if(page==='chat'){
-    document.getElementById('cbadge').style.display='none';
-    lastChatLen=Object.keys((window.__D?.chat)||{}).length;
+// ─── DEADLINE CHECK ──────────────────────────────────────────────
+function checkDeadlines() {
+  if (!ME||isAdmin()) return;
+  var s = getSeksi(ME.sid); if (!s) return;
+  var late=0, warn=0;
+  for (var i=0;i<s.tasks.length;i++) {
+    if (taskDone(ME.sid,i)) continue;
+    var d = daysLeft(i);
+    if (d===null) continue;
+    if (d<0) late++;
+    else if (d<=2) warn++;
   }
-  if(window.__D){
-    try{renderAll(window.__D);}catch(e){console.error('Render error:',e);showEmpty(page);}
-  } else {
-    showEmpty(page);
+  var b = document.getElementById('nb-mine');
+  if (b) {
+    if (late>0) { b.innerHTML=b.innerHTML.replace(/&#.*$/,''); b.querySelector('.nb-lbl').innerHTML='Seksi Saya<span style="background:#ef4444;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px">'+late+'</span>'; }
+    else if (warn>0) { b.querySelector('.nb-lbl').innerHTML='Seksi Saya<span style="background:#d97706;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px">!</span>'; }
+  }
+  if ('Notification' in window && Notification.permission==='granted' && late>0) {
+    var s2=getSeksi(ME.sid);
+    new Notification('&#9888; Task Terlambat — Musda GGBI',{body:'Seksi '+s2.name+': '+late+' task melewati deadline!',tag:'late'});
   }
 }
-function showEmpty(page){
-  const ids={home:'hc',mine:'mc',all:'ac',admin:'admc'};
-  const id=ids[page];
-  if(id){const el=document.getElementById(id);
-    if(el)el.innerHTML='<div style="text-align:center;padding:40px 16px;color:#999;font-size:13px">&#8635; Memuat data...<br><span style="font-size:11px">Pastikan koneksi internet aktif</span></div>';}
-}
-// toggleSection replaced by toggleSec
 
-function renderAll(d){
-  if(!d) return;
-  try{
-    const pct=calcTotal(d);
-    const pf=document.getElementById('tpfill');
-    const tp=document.getElementById('tpct');
-    if(pf)pf.style.width=pct+'%';
-    if(tp)tp.textContent=pct+'%';
-    if(curPage==='home')renderHome(d);
-    else if(curPage==='mine')renderMine(d);
-    else if(curPage==='all')renderAllSeksi(d);
-    else if(curPage==='chat')renderChat(d);
-    else if(curPage==='admin')renderAdmin(d);
-  }catch(e){console.error('renderAll error:',e);}
+// ─── ADMIN LOCK/UNLOCK ───────────────────────────────────────────
+function toggleLock(key) {
+  if (!isAdmin()) return;
+  var cur = !!(getLocks()[key]);
+  DB.ref('locks/'+key).set(!cur);
+  showToast(!cur?'&#128274; Terkunci':'&#128275; Dibuka');
+}
+function resetTask(key) {
+  if (!isAdmin()) return;
+  if (!confirm('Reset task ini?')) return;
+  DB.ref('tasks/'+key).remove();
+  DB.ref('notes/'+key).remove();
+  showToast('Task direset');
 }
 
-function renderHome(d){
-  if(!d)return;
-  const ol=onlineList(d);
-  const pct=calcTotal(d);
-  const done=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i]?.done))).filter(Boolean).length;
-  const total=SEKSI.reduce((a,s)=>a+s.tasks.length,0);
-  const days=Math.max(0,Math.ceil((new Date('2026-06-08')-new Date())/864e5));
+// ─── RENDER HOME ─────────────────────────────────────────────────
+function renderHome() {
+  var el = document.getElementById('hc'); if (!el) return;
+  var pct=calcTotal(), done=0, total=0;
+  for(var i=0;i<SEKSI.length;i++){var s=SEKSI[i];total+=s.tasks.length;for(var j=0;j<s.tasks.length;j++){if(taskDone(s.id,j))done++;}}
+  var days=Math.max(0,Math.ceil((new Date('2026-06-08')-new Date())/864e5));
+  var ol=getOnline();
 
-  let h='<div style="height:8px"></div>';
-  h+=`<div class="cd-bar"><div><div class="cd-l">Hari pelaksanaan</div><div class="cd-date">Sabtu, 8 Juni 2026</div></div><div style="text-align:right"><div class="cd-num">${days}</div><div class="cd-unit">hari lagi</div></div></div>`;
-  h+=`<div class="theme-chip">&#9997;&#65039; "Menuntaskan Tugas Pelayanan dengan Setia dan Tanggung Jawab" &mdash; 1 Kor 4:2</div>`;
+  var h='<div style="height:8px"></div>';
+  h+='<div class="cd"><div><div style="font-size:11px;color:#1d4ed8">Hari pelaksanaan</div><div style="font-size:13px;font-weight:700;color:#1d4ed8;margin-top:2px">Sabtu, 8 Juni 2026</div></div>';
+  h+='<div style="text-align:right"><div style="font-size:28px;font-weight:700;color:#1d4ed8">'+days+'</div><div style="font-size:10px;color:#1d4ed8;opacity:.7">hari lagi</div></div></div>';
+  h+='<div class="chip">&#9997;&#65039; &ldquo;Menuntaskan Tugas Pelayanan dengan Setia dan Tanggung Jawab&rdquo; &mdash; 1 Kor 4:2</div>';
 
-  // Deadline reminder card
-  const nextDeadline=WEEK_DEADLINES.find(w=>new Date()<w.deadline);
-  const overdueWeeks=WEEK_DEADLINES.filter(w=>new Date()>w.deadline);
-  if(nextDeadline){
-    const dLeft=Math.ceil((nextDeadline.deadline-new Date())/864e5);
-    const urgColor=dLeft<=2?'#FAECE7':dLeft<=5?'#FAEEDA':'#E1F5EE';
-    const urgText=dLeft<=2?'#993C1D':dLeft<=5?'#854F0B':'#0F6E56';
-    const urgIco=dLeft<=2?'&#9888;&#65039;':dLeft<=5?'&#9201;':'&#128197;';
-    h+=`<div style="background:${urgColor};border-radius:10px;padding:10px 13px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
-      <div><div style="font-size:10px;color:${urgText};font-weight:600">${urgIco} Deadline berikutnya</div>
-      <div style="font-size:12px;font-weight:600;color:${urgText};margin-top:2px">${nextDeadline.label}: ${nextDeadline.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'long'})}</div></div>
-      <div style="text-align:right"><div style="font-size:22px;font-weight:700;color:${urgText}">${dLeft}</div><div style="font-size:9px;color:${urgText}">hari lagi</div></div>
-    </div>`;
-  }
-  if(overdueWeeks.length>0){
-    h+=`<div style="background:#FAECE7;border-radius:10px;padding:8px 13px;margin-bottom:10px;font-size:11px;color:#993C1D">
-      &#9888;&#65039; <strong>${overdueWeeks.length} periode</strong> sudah melewati deadline. Segera selesaikan task yang tertunda!
-    </div>`;
-  }
-  h+=`<div class="sgrid2">
-    <div class="sc"><div class="sl">Progress total</div><div class="sn">${pct}%</div><div class="ss">semua seksi</div></div>
-    <div class="sc"><div class="sl">Task selesai</div><div class="sn">${done}</div><div class="ss">dari ${total} task</div></div>
-    <div class="sc"><div class="sl">Koordinator online</div><div class="sn">${ol.length}</div><div class="ss">dari 7 seksi</div></div>
-    <div class="sc"><div class="sl">Sisa hari</div><div class="sn">${days}</div><div class="ss">menuju hari-H</div></div>
-  </div>`;
+  // Deadline warning
+  var nextDl=null;
+  for(var i=0;i<DEADLINES.length;i++){if(new Date()<DEADLINES[i].dl){nextDl=DEADLINES[i];break;}}
+  if(nextDl){var dl=Math.ceil((nextDl.dl-new Date())/864e5);var bg=dl<=2?'#fef2f2':dl<=5?'#fef3c7':'#f0fdf4';var tc=dl<=2?'#991b1b':dl<=5?'#92400e':'#14532d';h+='<div style="background:'+bg+';border-radius:10px;padding:10px 13px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:10px;font-weight:700;color:'+tc+'">Deadline berikutnya</div><div style="font-size:12px;font-weight:700;color:'+tc+';margin-top:2px">'+nextDl.label+'</div></div><div style="text-align:right"><div style="font-size:22px;font-weight:700;color:'+tc+'">'+dl+'</div><div style="font-size:9px;color:'+tc+'">hari lagi</div></div></div>';}
 
-  if(ol.length>0){
-    h+=`<div class="sec-lbl">AKTIF SEKARANG</div><div style="padding:2px 0 8px;display:flex;flex-wrap:wrap">`;
-    ol.forEach(u=>{h+=`<div class="opill"><div class="opip" style="background:${u.color}"></div>${u.name}${u.uid===ME?.uid?'<span class="mybadge">Saya</span>':''}</div>`;});
-    h+=`</div>`;
+  h+='<div class="sg">';
+  h+='<div class="sc"><div class="sl">Progress total</div><div class="sn">'+pct+'%</div><div class="ss">semua seksi</div></div>';
+  h+='<div class="sc"><div class="sl">Task selesai</div><div class="sn">'+done+'</div><div class="ss">dari '+total+' task</div></div>';
+  h+='<div class="sc"><div class="sl">Koordinator online</div><div class="sn">'+ol.length+'</div><div class="ss">dari 7 seksi</div></div>';
+  h+='<div class="sc"><div class="sl">Sisa hari</div><div class="sn">'+days+'</div><div class="ss">menuju hari-H</div></div>';
+  h+='</div>';
+
+  if(ol.length>0){h+='<div class="sec-lbl">AKTIF SEKARANG</div><div style="padding:2px 0 8px;display:flex;flex-wrap:wrap">';for(var i=0;i<ol.length;i++){var u=ol[i];h+='<div class="opill"><div class="opip" style="background:'+(u.color||'#374151')+'"></div>'+u.name+(ME&&u.uid===ME.uid?'<span class="mybadge">Saya</span>':'')+'</div>';}h+='</div>';}
+
+  h+='<div class="sec-lbl">PROGRESS SEMUA SEKSI</div>';
+  for(var i=0;i<SEKSI.length;i++){
+    var s=SEKSI[i];var p=calcPct(s.id);var dn=0;for(var j=0;j<s.tasks.length;j++){if(taskDone(s.id,j))dn++;}
+    h+='<div class="card" style="margin-bottom:6px"><div class="card-hd" style="cursor:default">';
+    h+='<div class="cl"><div class="dot" style="background:'+s.c+'"></div><div><div class="cname">'+s.name+'</div><div class="csub">'+dn+'/'+s.tasks.length+' selesai</div></div></div>';
+    h+='<div class="cr"><span class="cpct" style="color:'+s.c+'">'+p+'%</span><div class="mbar"><div class="mfill" style="width:'+p+'%;background:'+s.c+'"></div></div></div>';
+    h+='</div></div>';
   }
 
-  h+=`<div class="sec-lbl">PROGRESS SEMUA SEKSI</div>`;
-  SEKSI.forEach(s=>{
-    const p=calcPct(d,s.id);
-    const dn=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]?.done).length;
-    h+=`<div class="card" style="margin-bottom:6px"><div class="card-head" style="cursor:default;padding:9px 12px">
-      <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
-        <div><div class="ch-name">${s.name}</div><div class="ch-sub">${dn}/${s.tasks.length} selesai</div></div>
-      </div>
-      <div class="ch-r"><span class="pct-sm" style="color:${s.c}">${p}%</span>
-        <div class="mbar"><div class="mfill" style="width:${p}%;background:${s.c}"></div></div>
-      </div></div></div>`;
-  });
+  var acts=Object.values(DATA.activity||{}).sort(function(a,b){return b.ts-a.ts;}).slice(0,6);
+  if(acts.length>0){h+='<div class="sec-lbl" style="margin-top:4px">AKTIVITAS TERKINI</div><div class="card"><div>';for(var i=0;i<acts.length;i++){var a=acts[i];h+='<div class="fi"><div class="fdot" style="background:'+(a.c||'#374151')+'"></div><div><div style="font-size:11px;font-weight:700">'+a.who+' <span style="font-weight:400;color:#6b7280">('+a.seksi+')</span></div><div style="font-size:11px;color:#6b7280;margin-top:1px">'+a.txt+'</div><div style="font-size:10px;color:#9ca3af;margin-top:2px">'+ago(a.ts)+'</div></div></div>';}h+='</div></div>';}
 
-  const acts=Object.values(d.activity||{}).sort((a,b)=>b.ts-a.ts).slice(0,6);
-  if(acts.length>0){
-    h+=`<div class="sec-lbl" style="margin-top:4px">AKTIVITAS TERKINI</div><div class="card"><div>`;
-    acts.forEach(a=>{h+=`<div class="fi"><div class="fdot" style="background:${a.c}"></div>
-      <div><div class="fwho">${a.who} <span style="font-weight:400;color:#555">(${a.seksi})</span></div>
-      <div class="ftxt">${a.txt}</div><div class="ftime">${ago(a.ts)}</div></div></div>`;});
-    h+=`</div></div>`;
-  }
-  document.getElementById('hc').innerHTML=h;
+  el.innerHTML=h;
 }
 
-function buildTaskRow(s, t, i, taskData, noteVal, mine, showNote){
-  const key=s.id+'_'+i;
-  const dn=!!taskData?.done;
-  const byName=taskData?.by;
-  const byAt=taskData?.at;
-  const canToggle=mine;
+// ─── RENDER MINE ─────────────────────────────────────────────────
+function renderMine() {
+  var el=document.getElementById('mc'); if(!el||!ME) return;
+  var s=getSeksi(ME.sid); if(!s) return;
+  var pct=calcPct(s.id);
+  var dn=0; for(var i=0;i<s.tasks.length;i++){if(taskDone(s.id,i))dn++;}
 
-  const isLocked=!!(window.__D&&window.__D.locks&&window.__D.locks[key]);
-  const ddDays=daysUntilDeadline(idx);
-  const overdue=!dn && ddDays!==null && ddDays<0;
-  const urgent=!dn && ddDays!==null && ddDays>=0 && ddDays<=2;
-  const weekInfo=getTaskWeek(idx);
-
-  let metaHtml='';
-  if(isLocked){
-    metaHtml+=`<div style="font-size:9px;color:#993C1D;margin-top:3px;display:flex;align-items:center;gap:3px">&#128274; <span>Dikunci — hanya Ketua Pelaksana yang bisa membuka</span></div>`;
+  var h='<div class="hero" style="background:'+s.c+'">';
+  h+='<div style="font-size:11px;opacity:.8">Seksi saya</div>';
+  h+='<div style="font-size:16px;font-weight:700;margin-top:2px">'+s.name+'</div>';
+  h+='<div style="font-size:36px;font-weight:700;margin-top:4px">'+pct+'%</div>';
+  h+='<div class="hero-bar"><div class="hero-bf" style="width:'+pct+'%"></div></div>';
+  h+='<div style="font-size:10px;opacity:.75;margin-top:5px">'+dn+'/'+s.tasks.length+' task selesai &bull; '+ME.name+'</div></div>';
+  h+='<div class="sec-lbl">TASK SEKSI SAYA &mdash; ketuk untuk centang/batalkan</div>';
+  h+='<div class="card"><div class="tlist">';
+  for(var i=0;i<s.tasks.length;i++){
+    h+=buildTaskRow(s,i,true,true);
   }
-  // Deadline badge
-  if(!dn && weekInfo){
-    if(overdue){
-      metaHtml+=`<div style="font-size:9px;color:#fff;background:#e24b4a;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#9888;&#65039; Terlambat ${Math.abs(ddDays)} hari &bull; Deadline ${weekInfo.label}: ${weekInfo.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}</div>`;
-    } else if(urgent){
-      metaHtml+=`<div style="font-size:9px;color:#fff;background:#854F0B;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#9201; ${ddDays===0?'Deadline hari ini':'Deadline besok'} &bull; ${weekInfo.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}</div>`;
-    } else if(ddDays<=7){
-      metaHtml+=`<div style="font-size:9px;color:#854F0B;background:#FAEEDA;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#128197; Sisa ${ddDays} hari &bull; ${weekInfo.label}: ${weekInfo.deadline.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}</div>`;
-    }
-  }
-  if(dn && byName && byAt){
-    const isMine2=byName===ME?.name;
-    metaHtml=`<div class="task-meta ${isMine2?'':'other'}">
-      &#10003; <span>${byName}</span> &bull; <span>${fmtTime(byAt)}</span>
-    </div>`;
-  }
-
-  let noteHtml='';
-  if(showNote){
-    // Show note input for own seksi
-    noteHtml=`<div class="note-wrap">
-      <textarea class="note-inp" rows="2" placeholder="Tambah catatan..." 
-        onchange="saveNote('${key}',this.value)" 
-        oninput="saveNote('${key}',this.value)">${noteVal||''}</textarea>
-      <div class="note-saved" id="note-saved-${key}"></div>
-    </div>`;
-  } else if(noteVal){
-    // Read-only note for other seksi
-    noteHtml=`<div class="note-display">&#128221; ${noteVal}</div>`;
-  }
-
-  return `<div class="tr ${canToggle?'can':''}">
-    <div class="tr-main" ${canToggle?`onclick="toggleTask('${s.id}',${i})"`:''}> 
-      <div class="chk ${dn?(mine?'done':'odone'):''}">${dn?'&#10003;':''}</div>
-      <div class="task-info">
-        <div class="ttxt ${dn?'done':''}">${t}</div>
-        ${metaHtml}
-        ${!mine&&!dn?`<div class="tlock">Hanya koordinator ${s.name}</div>`:''}
-      </div>
-    </div>
-    ${noteHtml}
-  </div>`;
+  h+='</div></div>';
+  el.innerHTML=h;
 }
 
-function renderMine(d){
-  if(!ME||!d)return;
-  const s=getSeksi(ME.seksiId);if(!s)return;
-  const pct=calcPct(d,s.id);
-  const done=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]?.done).length;
-  let h=`<div class="hero" style="background:${s.c}">
-    <div class="hero-lbl">Seksi saya</div><div class="hero-name">${s.name}</div>
-    <div class="hero-pct">${pct}%</div>
-    <div class="hero-bar"><div class="hero-bfill" style="width:${pct}%"></div></div>
-    <div class="hero-info">${done}/${s.tasks.length} task selesai &bull; ${ME.name}</div>
-  </div>
-  <div class="sec-lbl">TASK SEKSI SAYA &mdash; ketuk untuk centang / batalkan</div>
-  <div class="card"><div class="tl">`;
-  s.tasks.forEach((t,i)=>{
-    const key=s.id+'_'+i;
-    const td=(d.tasks||{})[key];
-    const nv=(d.notes||{})[key];
-    h+=buildTaskRow(s,t,i,td,nv,true,true);
-  });
-  h+=`</div></div>`;
-  document.getElementById('mc').innerHTML=h;
-}
+// ─── RENDER ALL ───────────────────────────────────────────────────
+function renderAll() {
+  var el=document.getElementById('ac'); if(!el) return;
+  var h='';
+  for(var i=0;i<SEKSI.length;i++){
+    var s=SEKSI[i];
+    var pct=calcPct(s.id);
+    var mine=!!(ME&&ME.sid===s.id);
+    var isOpen=openSec[s.id]!==false;
+    var dn=0; for(var j=0;j<s.tasks.length;j++){if(taskDone(s.id,j))dn++;}
 
-function renderAllSeksi(d){
-  const el=document.getElementById('ac');
-  if(!el){console.warn('ac element not found');return;}
-  try{
-    let h='';
-    SEKSI.forEach(function(s){
-      try{
-        const tasks=d&&d.tasks?d.tasks:{};
-        const notes=d&&d.notes?d.notes:{};
-        const locks=d&&d.locks?d.locks:{};
-        const pct=calcPct(d,s.id);
-        const mine=!!(ME&&ME.seksiId===s.id);
-        const isOpen=openSec[s.id]!==false;
-        const done=s.tasks.filter(function(_,i){return !!(tasks[s.id+'_'+i]&&tasks[s.id+'_'+i].done);}).length;
-        h+='<div class="card">';
-        h+='<div class="card-head" onclick="toggleSec(''+s.id+'')">';
-        h+='<div class="ch-l"><div class="ch-dot" style="background:'+s.c+'"></div>';
-        h+='<div><div class="ch-name">'+s.name+(mine?'<span class="mybadge">Saya</span>':'')+'</div>';
-        h+='<div class="ch-sub">'+done+'/'+s.tasks.length+' selesai</div></div></div>';
-        h+='<div class="ch-r"><span class="pct-sm" style="color:'+s.c+'">'+pct+'%</span>';
-        h+='<div class="mbar"><div class="mfill" style="width:'+pct+'%;background:'+s.c+'"></div></div>';
-        h+='<span class="chev '+(isOpen?'op':'')+'">&#9654;</span></div></div>';
-        if(isOpen){
-          h+='<div class="tl">';
-          s.tasks.forEach(function(t,i){
-            try{
-              const key=s.id+'_'+i;
-              const td=tasks[key]||null;
-              const nv=notes[key]||null;
-              const dn=!!(td&&td.done);
-              const locked=!!(locks[key]);
-              const byName=td&&td.by?td.by:null;
-              const byAt=td&&td.at?td.at:null;
-              // Deadline info
-              const ddDays=daysUntilDeadline(i);
-              const overdue=!dn&&ddDays!==null&&ddDays<0;
-              const urgent=!dn&&ddDays!==null&&ddDays>=0&&ddDays<=2;
-              const weekInfo=getTaskWeek(i);
-              let meta='';
-              if(locked) meta+='<div style="font-size:9px;color:#993C1D;margin-top:3px">&#128274; Dikunci — hanya Ketua Pelaksana</div>';
-              if(!dn&&weekInfo){
-                if(overdue) meta+='<div style="font-size:9px;color:#fff;background:#e24b4a;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#9888; Terlambat '+Math.abs(ddDays)+' hari</div>';
-                else if(urgent) meta+='<div style="font-size:9px;color:#fff;background:#854F0B;border-radius:4px;padding:2px 6px;margin-top:4px;display:inline-block">&#9201; Deadline '+(ddDays===0?'hari ini':'besok')+'</div>';
-              }
-              if(dn&&byName&&byAt) meta+='<div style="font-size:9px;color:#0F6E56;margin-top:3px">&#10003; '+byName+' &bull; '+fmtTime(byAt)+'</div>';
-              // Note display
-              let noteHtml='';
-              if(mine){
-                noteHtml='<div class="note-wrap"><textarea class="note-inp" rows="2" placeholder="Tambah catatan..." oninput="saveNote(''+key+'',this.value)">'+( nv||'')+'</textarea><div class="note-saved" id="note-saved-'+key+'"></div></div>';
-              } else if(nv){
-                noteHtml='<div class="note-display">&#128221; '+nv+'</div>';
-              }
-              h+='<div class="tr '+(mine?'can':'')+'">';
-              h+='<div class="tr-main" '+(mine?'onclick="toggleTask(''+s.id+'','+i+')"':'')+'>'; 
-              h+='<div class="chk '+(dn?(mine?'done':'odone'):'')+'">'+(dn?'&#10003;':'')+'</div>';
-              h+='<div class="task-info"><div class="ttxt '+(dn?'done':'')+'">'+t+'</div>'+meta;
-              if(!mine&&!dn) h+='<div class="tlock">Hanya koordinator '+s.name+'</div>';
-              h+='</div></div>'+noteHtml+'</div>';
-            }catch(taskErr){
-              console.error('Task row error seksi '+s.id+' task '+i+':',taskErr);
-              h+='<div class="tr"><div class="tr-main"><div class="task-info"><div class="ttxt">'+t+'</div></div></div></div>';
-            }
-          });
-          h+='</div>';
-        }
-        h+='</div>';
-      }catch(seksiErr){
-        console.error('Seksi error '+s.id+':',seksiErr);
-        h+='<div class="card" style="padding:10px 12px;color:#e24b4a;font-size:11px">Error memuat seksi '+s.name+'</div>';
+    h+='<div class="card">';
+    h+='<div class="card-hd" onclick="toggleSec(\''+s.id+'\')">'; 
+    h+='<div class="cl"><div class="dot" style="background:'+s.c+'"></div>';
+    h+='<div><div class="cname">'+s.name+(mine?'<span class="mybadge">Saya</span>':'')+'</div>';
+    h+='<div class="csub">'+dn+'/'+s.tasks.length+' selesai</div></div></div>';
+    h+='<div class="cr"><span class="cpct" style="color:'+s.c+'">'+pct+'%</span>';
+    h+='<div class="mbar"><div class="mfill" style="width:'+pct+'%;background:'+s.c+'"></div></div>';
+    h+='<span class="chev'+(isOpen?' op':'')+'" style="font-size:10px;color:#9ca3af;margin-left:4px">&#9654;</span></div></div>';
+
+    if(isOpen){
+      h+='<div class="tlist">';
+      for(var j=0;j<s.tasks.length;j++){
+        h+=buildTaskRow(s,j,mine,mine);
       }
-    });
-    el.innerHTML=h;
-  }catch(e){
-    console.error('renderAllSeksi fatal:',e);
-    el.innerHTML='<div style="padding:20px;text-align:center;color:#e24b4a;font-size:12px">&#9888; Gagal memuat. Coba ketuk tab lain lalu kembali.<br><small>'+e.message+'</small></div>';
+      h+='</div>';
+    }
+    h+='</div>';
   }
+  el.innerHTML=h;
 }
 
 function toggleSec(id){
   openSec[id]=openSec[id]===false?true:false;
-  if(window.__D) try{renderAllSeksi(window.__D);}catch(e){console.error(e);}
+  renderAll();
 }
 
-function renderChat(d){
-  if(!d)return;
-  const msgs=Object.values(d.chat||{}).sort((a,b)=>a.ts-b.ts);
-  const el=document.getElementById('chatlist');
+// ─── BUILD TASK ROW ───────────────────────────────────────────────
+function buildTaskRow(s, idx, canEdit, showNote) {
+  var key=s.id+'_'+idx;
+  var td=getTasks()[key]||null;
+  var dn=!!(td&&td.done);
+  var locked=!!(getLocks()[key]);
+  var nv=getNotes()[key]||'';
+  var byName=td&&td.by?td.by:'';
+  var byAt=td&&td.at?td.at:0;
+  var days=daysLeft(idx);
+  var overdue=!dn&&days!==null&&days<0;
+  var urgent=!dn&&days!==null&&days>=0&&days<=2;
+  var dl=idx<DEADLINES.length?DEADLINES[idx]:null;
+
+  var h='<div class="trow'+(canEdit?' can':'')+'">';
+  if(canEdit){h+='<div class="tr-main" onclick="toggleTask(\''+s.id+'\','+idx+')" style="display:flex;align-items:flex-start;gap:8px;width:100%">';}
+  else{h+='<div class="tr-main" style="display:flex;align-items:flex-start;gap:8px;width:100%">';}
+  h+='<div class="chk'+(dn?(canEdit?' done':' odone'):'')+'">'+(dn?'&#10003;':'')+'</div>';
+  h+='<div class="tinfo">';
+  h+='<div class="ttxt'+(dn?' done':'')+'">'+s.tasks[idx]+'</div>';
+  if(locked)h+='<div style="font-size:9px;color:#991b1b;margin-top:3px">&#128274; Dikunci — hanya Ketua Pelaksana</div>';
+  if(overdue&&dl)h+='<div class="dead-late">&#9888; Terlambat '+Math.abs(days)+' hari &bull; '+dl.label+'</div>';
+  else if(urgent&&dl)h+='<div class="dead-warn">&#9201; Deadline '+(days===0?'hari ini':'besok')+' &bull; '+dl.label+'</div>';
+  if(dn&&byName&&byAt)h+='<div class="by-info">&#10003; '+byName+' &bull; '+fmtTime(byAt)+'</div>';
+  if(!canEdit&&!dn)h+='<div class="tlock">Hanya koordinator '+s.name+'</div>';
+  h+='</div></div>';
+  if(showNote){h+='<div class="note-w"><textarea class="note-inp" rows="2" placeholder="Tambah catatan..." oninput="saveNote(\''+key+'\',this.value)">'+nv+'</textarea><div class="note-saved" id="ns-'+key+'"></div></div>';}
+  else if(nv){h+='<div class="note-disp">&#128221; '+nv+'</div>';}
+  h+='</div>';
+  return h;
+}
+
+// ─── RENDER CHAT ──────────────────────────────────────────────────
+function renderChat() {
+  var el=document.getElementById('chatlist'); if(!el) return;
+  var msgs=Object.values(DATA.chat||{}).sort(function(a,b){return a.ts-b.ts;});
   if(msgs.length===0){el.innerHTML='<div class="empty">Belum ada pesan. Mulai diskusi!</div>';return;}
-  let h='<div style="height:8px"></div>';
-  msgs.forEach(m=>{
-    const mine=ME&&m.uid===ME.uid;
-    h+=`<div class="mr ${mine?'me':''}">
-      <div class="mav" style="background:${m.c}">${initials(m.name)}</div>
-      <div><div class="mb ${mine?'mine':'other'}">${m.msg}</div>
-      <div class="mwho ${mine?'me-who':''}">${m.name} &bull; ${ago(m.ts)}</div></div>
-    </div>`;
-  });
-  el.innerHTML=h;el.scrollTop=el.scrollHeight;
+  var h='<div style="height:8px"></div>';
+  for(var i=0;i<msgs.length;i++){
+    var m=msgs[i];
+    var mine=!!(ME&&m.uid===ME.uid);
+    h+='<div class="mr'+(mine?' me':'')+'">';
+    h+='<div class="mav" style="background:'+(m.c||'#374151')+'">'+ini(m.name)+'</div>';
+    h+='<div><div class="mb'+(mine?' mine':' other')+'">'+m.msg+'</div>';
+    h+='<div class="mwho'+(mine?' mw':'')+'">'+m.name+' &bull; '+ago(m.ts)+'</div></div></div>';
+  }
+  el.innerHTML=h;
+  el.scrollTop=el.scrollHeight;
   lastChatLen=msgs.length;
 }
 
-// ── DEADLINE & NOTIFIKASI ────────────────────────────────────
-let lastAlertSent = {};
-
-function checkDeadlineAlerts(){
-  if(!ME||isAdmin()||!window.__D)return;
-  const s=getSeksi(ME.seksiId);if(!s)return;
-  const tasks=window.__D.tasks||{};
-  let lateCount=0;
-  let warningCount=0;
-
-  s.tasks.forEach((t,i)=>{
-    const key=s.id+'_'+i;
-    const isDone=!!(tasks[key]?.done);
-    if(isDone)return;
-    const days=daysUntilDeadline(i);
-    if(days===null)return;
-    if(days<0){ lateCount++; }
-    else if(days<=2){ warningCount++; }
-  });
-
-  // Update warning badge on navbar
-  const badge=document.getElementById('nb-mine-badge');
-  if(badge){
-    if(lateCount>0){
-      badge.style.display='';badge.textContent=lateCount;badge.style.background='#e24b4a';
-    } else if(warningCount>0){
-      badge.style.display='';badge.textContent='!';badge.style.background='#854F0B';
-    } else {
-      badge.style.display='none';
-    }
-  }
-
-  // Push notification untuk task terlambat (sekali per task per hari)
-  if('Notification' in window && Notification.permission==='granted'){
-    s.tasks.forEach((t,i)=>{
-      const key=s.id+'_'+i;
-      const isDone=!!(tasks[key]?.done);
-      if(isDone)return;
-      const days=daysUntilDeadline(i);
-      if(days===null)return;
-      const alertKey=key+'_'+new Date().toDateString();
-      if(lastAlertSent[alertKey])return;
-      if(days<0){
-        lastAlertSent[alertKey]=true;
-        new Notification('⚠️ Task Terlambat — Musda GGBI',{
-          body:`Seksi ${getSeksi(ME.seksiId)?.name}: "${t}" sudah melewati deadline!`,
-          icon:'https://www.google.com/favicon.ico',
-          tag:key
-        });
-      } else if(days<=1 && days>=0){
-        lastAlertSent[alertKey]=true;
-        new Notification('⏰ Deadline Besok — Musda GGBI',{
-          body:`Seksi ${getSeksi(ME.seksiId)?.name}: "${t}" deadline besok!`,
-          icon:'https://www.google.com/favicon.ico',
-          tag:key+'_warn'
-        });
-      }
-    });
-  }
-}
-
-// ── ADMIN FUNCTIONS ────────────────────────────────────────────
-function showAdminLogin(){
-  const m=document.getElementById('admin-modal');
-  m.style.display='flex';
-  setTimeout(()=>document.getElementById('admin-name').focus(),100);
-}
-function closeAdminModal(){
-  document.getElementById('admin-modal').style.display='none';
-  document.getElementById('admin-pin').value='';
-  document.getElementById('admin-name').value='';
-}
-function doAdminLogin(){
-  const pin=document.getElementById('admin-pin').value.trim();
-  const name=document.getElementById('admin-name').value.trim();
-  if(!name){alert('Masukkan nama ketua pelaksana.');return;}
-  if(pin!==ADMIN_PIN){alert('PIN salah. Hubungi pengembang aplikasi.');return;}
-  closeAdminModal();
-  ME={uid:ADMIN_ID, name:name||'Ketua Pelaksana', seksiId:ADMIN_ID, isAdmin:true};
-  localStorage.setItem('musda_me_v3',JSON.stringify(ME));
-  startApp();
-}
-
-async function toggleLock(key){
-  if(!isAdmin())return;
-  const ref=db.ref('locks/'+key);
-  const snap=await ref.get();
-  const cur=!!snap.val();
-  await ref.set(!cur);
-  showToast(!cur ? '&#128274; Task dikunci' : '&#128275; Task dibuka');
-}
-
-async function resetTask(key){
-  if(!isAdmin())return;
-  if(!confirm('Reset task ini? Status selesai dan catatan akan dihapus.'))return;
-  await db.ref('tasks/'+key).remove();
-  await db.ref('notes/'+key).remove();
-  showToast('Task direset');
-}
-
-function renderAdmin(d){
-  if(!d)return;
-  const locks=d.locks||{};
-  let h=`<div style="background:#185FA5;border-radius:12px;padding:12px 14px;margin-bottom:10px;color:#fff">
-    <div style="font-size:11px;opacity:.8">Mode Admin</div>
-    <div style="font-size:15px;font-weight:600;margin-top:2px">&#128274; Panel Ketua Pelaksana</div>
-    <div style="font-size:10px;opacity:.75;margin-top:4px">Kunci task agar tidak bisa diubah koordinator. Reset task jika diperlukan.</div>
-  </div>
-  <div style="font-size:10px;color:#999;padding:3px 2px 8px;letter-spacing:.04em;font-weight:600">KUNCI / BUKA TASK PER SEKSI</div>`;
-
-  SEKSI.forEach(s=>{
-    const isOpen=openSec['adm_'+s.id]!==false;
-    const lockedCount=s.tasks.filter((_,i)=>locks[s.id+'_'+i]).length;
-    const doneCount=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]?.done).length;
-    h+=`<div class="card">
-      <div class="card-head" onclick="openSec['adm_${s.id}']=openSec['adm_${s.id}']===false;renderAdmin(window.__D||{})">
-        <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
-          <div><div class="ch-name">${s.name}</div>
-          <div class="ch-sub">${doneCount}/${s.tasks.length} selesai &bull; ${lockedCount} dikunci</div></div>
-        </div>
-        <span class="chev ${isOpen?'op':''}">&#9654;</span>
-      </div>`;
+// ─── RENDER ADMIN ─────────────────────────────────────────────────
+function renderAdmin() {
+  var el=document.getElementById('admc'); if(!el) return;
+  var locks=getLocks();
+  var h='<div style="background:#1d4ed8;border-radius:12px;padding:12px 14px;margin-bottom:10px;color:#fff">';
+  h+='<div style="font-size:11px;opacity:.8">Mode Admin</div>';
+  h+='<div style="font-size:15px;font-weight:700;margin-top:2px">&#128274; Panel Ketua Pelaksana</div>';
+  h+='<div style="font-size:10px;opacity:.75;margin-top:4px">Kunci task agar tidak bisa diubah koordinator. Reset jika diperlukan.</div></div>';
+  h+='<div class="sec-lbl">KUNCI / BUKA TASK PER SEKSI</div>';
+  for(var i=0;i<SEKSI.length;i++){
+    var s=SEKSI[i];
+    var lc=0;for(var j=0;j<s.tasks.length;j++){if(locks[s.id+'_'+j])lc++;}
+    var dn=0;for(var j=0;j<s.tasks.length;j++){if(taskDone(s.id,j))dn++;}
+    var isOpen=openSec['adm_'+s.id]!==false;
+    h+='<div class="card"><div class="card-hd" onclick="toggleAdmSec(\''+s.id+'\')">';
+    h+='<div class="cl"><div class="dot" style="background:'+s.c+'"></div>';
+    h+='<div><div class="cname">'+s.name+'</div><div class="csub">'+dn+'/'+s.tasks.length+' selesai &bull; '+lc+' dikunci</div></div></div>';
+    h+='<span class="chev'+(isOpen?' op':'')+'">&#9654;</span></div>';
     if(isOpen){
-      h+=`<div class="tl">`;
-      s.tasks.forEach((t,i)=>{
-        const key=s.id+'_'+i;
-        const td=(d.tasks||{})[key];
-        const locked=!!locks[key];
-        const dn=!!td?.done;
-        const adDays=daysUntilDeadline(i);
-        const adOverdue=!dn&&adDays!==null&&adDays<0;
-        const adWeek=getTaskWeek(i);
-        h+=`<div style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:.5px solid rgba(0,0,0,.07);background:${adOverdue?'#FEF2F2':'#fff'}">
-          <div style="width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:${dn?'#0F6E56':'#fff'};color:${dn?'#fff':'#999'}">${dn?'&#10003;':''}</div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:11px;color:${dn?'#999':'#111'};${dn?'text-decoration:line-through':''};">${t}</div>
-            ${dn&&td?.by?`<div style="font-size:9px;color:#0F6E56;margin-top:2px">&#10003; ${td.by} &bull; ${fmtTime(td.at)}</div>`:''}
-            ${adOverdue&&adWeek?`<div style="font-size:9px;color:#e24b4a;margin-top:2px;font-weight:600">&#9888; Terlambat ${Math.abs(adDays)} hari — deadline ${adWeek.label}</div>`:''}
-            ${locked?`<div style="font-size:9px;color:#993C1D;margin-top:2px">&#128274; Terkunci — koordinator tidak bisa ubah</div>`:''}
-          </div>
-          <div style="display:flex;gap:4px;flex-shrink:0">
-            <button onclick="toggleLock('${key}')" style="padding:4px 8px;border-radius:6px;border:.5px solid rgba(0,0,0,.15);font-size:10px;background:${locked?'#FAECE7':'#f7f7f8'};color:${locked?'#993C1D':'#555'};cursor:pointer">${locked?'&#128275; Buka':'&#128274; Kunci'}</button>
-            ${dn?`<button onclick="resetTask('${key}')" style="padding:4px 8px;border-radius:6px;border:.5px solid rgba(0,0,0,.15);font-size:10px;background:#fff;color:#999;cursor:pointer">&#8635; Reset</button>`:''}
-          </div>
-        </div>`;
-      });
-      h+=`</div>`;
+      h+='<div class="tlist">';
+      for(var j=0;j<s.tasks.length;j++){
+        var key=s.id+'_'+j;
+        var td=getTasks()[key]||null;
+        var dn2=!!(td&&td.done);
+        var locked=!!(locks[key]);
+        var days=daysLeft(j);
+        var dl=j<DEADLINES.length?DEADLINES[j]:null;
+        var late=!dn2&&days!==null&&days<0;
+        h+='<div style="display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:1px solid #f3f4f6;background:'+(late?'#fef2f2':'#fff')+'">';
+        h+='<div class="chk'+(dn2?' done':'')+'">'+(dn2?'&#10003;':'')+'</div>';
+        h+='<div style="flex:1;min-width:0">';
+        h+='<div style="font-size:11px;color:'+(dn2?'#9ca3af':'#111')+';'+(dn2?'text-decoration:line-through':'')+'">'+(s.tasks[j])+'</div>';
+        if(dn2&&td&&td.by)h+='<div style="font-size:9px;color:#15803d;margin-top:2px">&#10003; '+td.by+' &bull; '+fmtTime(td.at)+'</div>';
+        if(late&&dl)h+='<div style="font-size:9px;color:#ef4444;font-weight:700;margin-top:2px">&#9888; Terlambat '+Math.abs(days)+' hari</div>';
+        if(locked)h+='<div style="font-size:9px;color:#991b1b;margin-top:2px">&#128274; Terkunci</div>';
+        h+='</div>';
+        h+='<div style="display:flex;gap:4px;flex-shrink:0">';
+        h+='<button onclick="toggleLock(\''+key+'\')" style="padding:4px 8px;border-radius:6px;border:1px solid #e5e7eb;font-size:10px;background:'+(locked?'#fef2f2':'#f9fafb')+';color:'+(locked?'#991b1b':'#6b7280')+';cursor:pointer">'+(locked?'&#128275; Buka':'&#128274; Kunci')+'</button>';
+        if(dn2)h+='<button onclick="resetTask(\''+key+'\')" style="padding:4px 8px;border-radius:6px;border:1px solid #e5e7eb;font-size:10px;background:#f9fafb;color:#9ca3af;cursor:pointer">&#8635;</button>';
+        h+='</div></div>';
+      }
+      h+='</div>';
     }
-    h+=`</div>`;
-  });
-  document.getElementById('admc').innerHTML=h;
+    h+='</div>';
+  }
+  el.innerHTML=h;
 }
 
-// ── Init
-document.getElementById('seksi-grid').innerHTML=SEKSI.map(s=>`
-  <div class="sp" data-id="${s.id}" data-c="${s.c}" onclick="pickSeksi(this)">
-    <div class="sp-ico">${s.ico}</div>
-    <div class="sp-name" style="color:${s.c}">${s.name}</div>
-  </div>`).join('');
+function toggleAdmSec(id){openSec['adm_'+id]=openSec['adm_'+id]===false?true:false;renderAdmin();}
 
-const savedMe=localStorage.getItem('musda_me_v3');
-if(savedMe){ME=JSON.parse(savedMe);startApp();}
-else document.getElementById('login-screen').style.display='';
+// ─── INIT ────────────────────────────────────────────────────────
+buildSeksiGrid();
+var saved=localStorage.getItem('musda_v8');
+if(saved){try{ME=JSON.parse(saved);startApp();}catch(e){localStorage.removeItem('musda_v8');document.getElementById('login-screen').style.display='';}  }
+else{document.getElementById('login-screen').style.display='';}
 </script>
 </body>
 </html>
