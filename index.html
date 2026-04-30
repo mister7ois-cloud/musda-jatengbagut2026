@@ -6,246 +6,138 @@
 <title>Koordinator Musda GGBI Jatengbagut</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#fff;--bg2:#f7f7f8;--bg3:#f0f0f2;--bgi:#eff6ff;
-  --txt:#111;--txt2:#555;--txt3:#999;
-  --txti:#1a56d6;
-  --bdr:rgba(0,0,0,.10);--bdr2:rgba(0,0,0,.18);
-  --r:8px;--rl:12px;
-  --bl:#185FA5;--bli:#E6F1FB;--blm:#0C447C;
-  --gr:#0F6E56;--gri:#E1F5EE;
-  --am:#854F0B;--ami:#FAEEDA;
-  --re:#993C1D;--rei:#FAECE7;
-  --pu:#534AB7;--pui:#EEEDFE;
-  --na:#0C447C;--nai:#B5D4F4;
-  --gy:#5F5E5A;--gyi:#F1EFE8;
-}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f2;color:var(--txt)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f2;color:#111}
 .app{max-width:420px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-
-/* SETUP SCREEN */
-.setup-wrap{flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;min-height:100vh}
-.setup-head{text-align:center;padding:20px 0 8px}
-.setup-ico{font-size:32px;margin-bottom:8px}
-.setup-title{font-size:18px;font-weight:600;margin-bottom:4px}
-.setup-sub{font-size:12px;color:var(--txt2);line-height:1.6}
-.setup-card{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--rl);padding:14px 16px}
-.setup-card-title{font-size:12px;font-weight:600;color:var(--bl);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.step-num{width:18px;height:18px;border-radius:50%;background:var(--bl);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.step-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
-.step-row:last-child{margin-bottom:0}
-.step-txt{font-size:11px;color:var(--txt2);line-height:1.6;flex:1}
-.step-txt a{color:var(--bl);font-weight:500}
-.inp-lbl{font-size:11px;font-weight:600;color:var(--txt2);margin-bottom:5px}
-.inp{width:100%;padding:9px 12px;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--bg);font-size:12px;color:var(--txt);font-family:monospace;outline:none}
-.inp:focus{border-color:var(--bl)}
-.inp::placeholder{color:var(--txt3);font-family:inherit}
-.btn-setup{width:100%;padding:12px;background:var(--bl);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;margin-top:4px}
-.btn-setup:disabled{opacity:.4;cursor:not-allowed}
-.btn-setup.secondary{background:var(--bg2);color:var(--txt2);border:.5px solid var(--bdr2);margin-top:0}
-.test-result{font-size:11px;padding:8px 10px;border-radius:var(--r);margin-top:8px;display:none}
-.test-ok{background:var(--gri);color:var(--gr)}
-.test-err{background:var(--rei);color:var(--re)}
-.divider{border:none;border-top:.5px solid var(--bdr);margin:4px 0}
-
-/* TOPBAR */
-.top{background:var(--bg);border-bottom:.5px solid var(--bdr);padding:10px 14px;position:sticky;top:0;z-index:30}
+.top{background:#fff;border-bottom:.5px solid rgba(0,0,0,.1);padding:10px 14px;position:sticky;top:0;z-index:30}
 .top-row{display:flex;align-items:flex-start;justify-content:space-between}
-.top-title{font-size:13px;font-weight:600}
-.top-sub{font-size:10px;color:var(--txt2);margin-top:1px}
+.top-title{font-size:13px;font-weight:600;color:#111}
+.top-sub{font-size:10px;color:#555;margin-top:1px}
 .sync-row{display:flex;align-items:center;gap:4px;justify-content:flex-end}
 .sdot{width:7px;height:7px;border-radius:50%;background:#A32D2D}
 .sdot.ok{background:#15803d}
 .sdot.spin{background:#854F0B;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.slbl{font-size:10px;color:var(--txt2)}
-.top-pct{font-size:11px;font-weight:600;color:var(--bl);text-align:right;margin-top:2px}
-.prog-bar{height:3px;background:var(--bdr);border-radius:2px;margin-top:7px;overflow:hidden}
-.prog-fill{height:100%;border-radius:2px;background:var(--bl);transition:width .5s}
-
-/* LOGIN */
-.login-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;min-height:75vh}
-.login-ico{font-size:28px;margin-bottom:8px}
-.login-title{font-size:16px;font-weight:600;text-align:center;margin-bottom:4px}
-.login-sub{font-size:12px;color:var(--txt2);text-align:center;margin-bottom:18px;line-height:1.5}
-.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-bottom:12px}
-.sp{background:var(--bg);border:1.5px solid var(--bdr);border-radius:var(--rl);padding:10px 6px;cursor:pointer;text-align:center;transition:all .15s}
+.slbl{font-size:10px;color:#555}
+.top-pct{font-size:11px;font-weight:600;color:#185FA5;text-align:right;margin-top:2px}
+.prog-bar{height:3px;background:rgba(0,0,0,.1);border-radius:2px;margin-top:7px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px;background:#185FA5;transition:width .5s}
+.login-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;min-height:85vh}
+.login-ico{font-size:32px;margin-bottom:10px}
+.login-title{font-size:18px;font-weight:600;text-align:center;margin-bottom:4px}
+.login-sub{font-size:12px;color:#555;text-align:center;margin-bottom:22px;line-height:1.6}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-bottom:14px}
+.sp{background:#fff;border:1.5px solid rgba(0,0,0,.1);border-radius:12px;padding:12px 6px;cursor:pointer;text-align:center;transition:all .15s;user-select:none}
 .sp.sel{border-width:2px}
 .sp:active{transform:scale(.97)}
-.sp-ico{font-size:20px;margin-bottom:3px}
+.sp-ico{font-size:22px;margin-bottom:4px}
 .sp-name{font-size:11px;font-weight:600}
-.ninp{width:100%;padding:10px 12px;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--bg);font-size:13px;color:var(--txt);margin-bottom:10px;outline:none}
-.ninp:focus{border-color:var(--bl)}
-.btn-login{width:100%;padding:12px;background:var(--bl);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer}
+.ninp{width:100%;padding:11px 14px;border-radius:8px;border:1px solid rgba(0,0,0,.18);background:#fff;font-size:14px;color:#111;margin-bottom:10px;outline:none}
+.ninp:focus{border-color:#185FA5}
+.btn-login{width:100%;padding:13px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
 .btn-login:disabled{opacity:.4;cursor:not-allowed}
-.link-setup{text-align:center;margin-top:10px;font-size:11px;color:var(--txti);cursor:pointer;text-decoration:underline}
-
-/* PAGES */
 .pages{flex:1}
 .page{display:none;padding:10px;overflow-y:auto;height:calc(100vh - 115px)}
 .page.on{display:block}
-
-/* BNAV */
-.bnav{background:var(--bg);border-top:.5px solid var(--bdr);display:flex;position:sticky;bottom:0;z-index:20}
+.bnav{background:#fff;border-top:.5px solid rgba(0,0,0,.1);display:flex;position:sticky;bottom:0;z-index:20}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:7px 2px 10px;border:none;background:transparent;cursor:pointer;gap:2px}
 .nb-ico{font-size:18px;line-height:1}
-.nb-lbl{font-size:9px;color:var(--txt3)}
-.nb.on .nb-lbl{color:var(--bl);font-weight:600}
-
-/* CARDS */
-.card{background:var(--bg);border:.5px solid var(--bdr);border-radius:var(--rl);margin-bottom:8px;overflow:hidden}
+.nb-lbl{font-size:9px;color:#999}
+.nb.on .nb-lbl{color:#185FA5;font-weight:600}
+.card{background:#fff;border:.5px solid rgba(0,0,0,.1);border-radius:12px;margin-bottom:8px;overflow:hidden}
 .card-head{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
-.card-head:active{background:var(--bg2)}
+.card-head:active{background:#f7f7f8}
 .ch-l{display:flex;align-items:flex-start;gap:8px}
 .ch-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:3px}
-.ch-name{font-size:12px;font-weight:600}
-.ch-sub{font-size:10px;color:var(--txt2);margin-top:1px}
+.ch-name{font-size:12px;font-weight:600;color:#111}
+.ch-sub{font-size:10px;color:#555;margin-top:1px}
 .ch-r{display:flex;align-items:center;gap:5px}
 .pct-sm{font-size:12px;font-weight:600}
-.mbar{width:44px;height:4px;background:var(--bdr);border-radius:2px;overflow:hidden}
+.mbar{width:44px;height:4px;background:rgba(0,0,0,.1);border-radius:2px;overflow:hidden}
 .mfill{height:100%;border-radius:2px;transition:width .4s}
-.chev{font-size:10px;color:var(--txt3);transition:transform .2s;margin-left:2px}
+.chev{font-size:10px;color:#999;transition:transform .2s;margin-left:2px}
 .chev.op{transform:rotate(90deg)}
-
-/* TASK */
-.tl{border-top:.5px solid var(--bdr)}
-.tr{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:.5px solid var(--bdr);user-select:none}
+.tl{border-top:.5px solid rgba(0,0,0,.1)}
+.tr{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-bottom:.5px solid rgba(0,0,0,.08);user-select:none}
 .tr:last-child{border-bottom:none}
 .tr.can{cursor:pointer}
-.tr.can:active{background:var(--bg2)}
-.chk{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--bdr2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s;background:var(--bg)}
+.tr.can:active{background:#f7f7f8}
+.chk{width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(0,0,0,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .15s;background:#fff}
 .chk.done{background:#0F6E56;border-color:#0F6E56;color:#fff}
-.chk.rdone{background:var(--bli);border-color:var(--bl);color:var(--blm)}
-.ttxt{font-size:11px;line-height:1.5;flex:1}
-.ttxt.done{color:var(--txt3);text-decoration:line-through}
-.tlock{font-size:9px;color:var(--txt3);margin-top:2px}
-
-/* STATS */
+.chk.odone{background:#B5D4F4;border-color:#185FA5;color:#0C447C}
+.ttxt{font-size:11px;line-height:1.5;flex:1;color:#111}
+.ttxt.done{color:#999;text-decoration:line-through}
+.tlock{font-size:9px;color:#999;margin-top:2px}
 .sgrid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px}
-.sc{background:var(--bg2);border-radius:var(--r);padding:10px 12px}
-.sl{font-size:10px;color:var(--txt2);margin-bottom:3px}
-.sn{font-size:22px;font-weight:600}
-.ss{font-size:10px;color:var(--txt3);margin-top:1px}
-
-/* HERO */
-.hero{border-radius:var(--rl);padding:14px;margin-bottom:10px;color:#fff}
+.sc{background:#f7f7f8;border-radius:8px;padding:10px 12px}
+.sl{font-size:10px;color:#555;margin-bottom:3px}
+.sn{font-size:22px;font-weight:600;color:#111}
+.ss{font-size:10px;color:#999;margin-top:1px}
+.hero{border-radius:12px;padding:14px;margin-bottom:10px;color:#fff}
 .hero-lbl{font-size:11px;opacity:.8}
 .hero-name{font-size:16px;font-weight:600;margin-top:2px}
 .hero-pct{font-size:36px;font-weight:600;margin-top:4px}
 .hero-bar{height:6px;background:rgba(0,0,0,.15);border-radius:3px;overflow:hidden;margin-top:8px}
 .hero-bfill{height:100%;border-radius:3px;background:rgba(255,255,255,.7);transition:width .4s}
 .hero-info{font-size:10px;opacity:.75;margin-top:5px}
-
-/* ACTIVITY */
-.fi{display:flex;gap:8px;padding:8px 12px;border-bottom:.5px solid var(--bdr)}
+.fi{display:flex;gap:8px;padding:8px 12px;border-bottom:.5px solid rgba(0,0,0,.08)}
 .fi:last-child{border-bottom:none}
 .fdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.fwho{font-size:11px;font-weight:600}
-.ftxt{font-size:11px;color:var(--txt2);line-height:1.4;margin-top:1px}
-.ftime{font-size:10px;color:var(--txt3);margin-top:2px}
-
-/* ONLINE */
-.opill{display:inline-flex;align-items:center;gap:4px;background:var(--bg2);border:.5px solid var(--bdr);border-radius:20px;padding:3px 8px;font-size:10px;color:var(--txt2);margin:0 3px 5px 0}
+.fwho{font-size:11px;font-weight:600;color:#111}
+.ftxt{font-size:11px;color:#555;line-height:1.4;margin-top:1px}
+.ftime{font-size:10px;color:#999;margin-top:2px}
+.opill{display:inline-flex;align-items:center;gap:4px;background:#f7f7f8;border:.5px solid rgba(0,0,0,.1);border-radius:20px;padding:3px 8px;font-size:10px;color:#555;margin:0 3px 5px 0}
 .opip{width:5px;height:5px;border-radius:50%}
-.mybadge{font-size:9px;background:var(--bgi);color:var(--txti);padding:1px 5px;border-radius:10px;margin-left:3px}
-
-/* CHAT */
+.mybadge{font-size:9px;background:#eff6ff;color:#1a56d6;padding:1px 5px;border-radius:10px;margin-left:3px}
 .chat-list{padding:8px 0}
 .mr{display:flex;gap:6px;padding:5px 10px;align-items:flex-end}
 .mr.me{flex-direction:row-reverse}
-.mav{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;color:#fff}
-.mb{max-width:78%;padding:8px 10px;border-radius:var(--rl);font-size:12px;line-height:1.5}
-.mb.mine{background:var(--bgi);color:var(--txti);border-bottom-right-radius:3px}
-.mb.other{background:var(--bg2);color:var(--txt);border-bottom-left-radius:3px}
-.mwho{font-size:9px;color:var(--txt3);margin-top:2px}
+.mav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;color:#fff}
+.mb{max-width:78%;padding:8px 11px;border-radius:12px;font-size:12px;line-height:1.5}
+.mb.mine{background:#eff6ff;color:#1a56d6;border-bottom-right-radius:3px}
+.mb.other{background:#f7f7f8;color:#111;border-bottom-left-radius:3px}
+.mwho{font-size:9px;color:#999;margin-top:2px}
 .mwho.me-who{text-align:right}
-.chat-bar{background:var(--bg);border-top:.5px solid var(--bdr);padding:8px 10px;display:flex;gap:6px;position:sticky;bottom:0}
-.ci{flex:1;padding:9px 12px;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--bg);font-size:12px;color:var(--txt);outline:none}
-.ci:focus{border-color:var(--bl)}
-.cs{padding:9px 14px;background:var(--bl);color:#fff;border:none;border-radius:var(--r);font-size:12px;font-weight:600;cursor:pointer}
-
-.sec-lbl{font-size:10px;font-weight:600;color:var(--txt3);padding:3px 2px 6px;letter-spacing:.04em}
-.empty{text-align:center;padding:32px 16px;font-size:12px;color:var(--txt3)}
-.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;border-radius:20px;padding:6px 16px;font-size:11px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100;white-space:nowrap}
+.chat-bar{background:#fff;border-top:.5px solid rgba(0,0,0,.1);padding:8px 10px;display:flex;gap:6px;position:sticky;bottom:0}
+.ci{flex:1;padding:9px 12px;border-radius:8px;border:1px solid rgba(0,0,0,.18);background:#fff;font-size:12px;color:#111;outline:none}
+.ci:focus{border-color:#185FA5}
+.cs{padding:9px 16px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
+.sec-lbl{font-size:10px;font-weight:600;color:#999;padding:3px 2px 6px;letter-spacing:.04em}
+.empty{text-align:center;padding:32px 16px;font-size:12px;color:#999}
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;border-radius:20px;padding:7px 18px;font-size:11px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100;white-space:nowrap}
 .toast.show{opacity:1}
+.cd-bar{background:#eff6ff;border:.5px solid rgba(24,95,165,.2);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.cd-l{font-size:11px;color:#185FA5}
+.cd-date{font-size:13px;font-weight:600;color:#185FA5;margin-top:2px}
+.cd-num{font-size:30px;font-weight:700;color:#185FA5}
+.cd-unit{font-size:10px;color:#185FA5;opacity:.7}
+.theme-chip{font-size:11px;color:#92400e;background:#fff8ec;border:.5px solid rgba(146,64,14,.2);border-radius:8px;padding:7px 11px;margin-bottom:10px;line-height:1.5}
 </style>
 </head>
 <body>
 <div class="app" id="app">
-
-<!-- TOPBAR (hidden until logged in) -->
 <div class="top" id="topbar" style="display:none">
   <div class="top-row">
     <div><div class="top-title">Koordinator Musda GGBI Jatengbagut</div>
     <div class="top-sub">8 Juni 2025 &bull; Aula Frank Lewis, STT Baptis Indonesia</div></div>
     <div style="text-align:right">
-      <div class="sync-row"><div class="sdot spin" id="sdot"></div><span class="slbl" id="slbl">Menghubungkan...</span></div>
+      <div class="sync-row"><div class="sdot spin" id="sdot"></div><span class="slbl" id="slbl">...</span></div>
       <div class="top-pct" id="tpct">0%</div>
     </div>
   </div>
   <div class="prog-bar"><div class="prog-fill" id="tpfill" style="width:0%"></div></div>
 </div>
 
-<!-- SETUP SCREEN -->
-<div id="setup-screen">
-<div class="setup-wrap">
-  <div class="setup-head">
-    <div class="setup-ico">&#9881;&#65039;</div>
-    <div class="setup-title">Setup Database Real-Time</div>
-    <div class="setup-sub">Lakukan sekali saja oleh admin / ketua pelaksana.<br>Koordinator lain cukup buka link yang sama.</div>
-  </div>
-
-  <div class="setup-card">
-    <div class="setup-card-title"><div class="step-num">1</div> Buat akun JSONBin.io (gratis)</div>
-    <div class="step-row"><div class="step-txt">Buka <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> &rarr; klik <b>Sign Up</b> &rarr; daftar gratis &rarr; login ke dashboard.</div></div>
-    <div class="step-row"><div class="step-txt">Di dashboard klik <b>API Keys</b> &rarr; copy <b>Secret Key</b> yang ada (dimulai dengan <code>$2b$10$...</code>).</div></div>
-    <div class="inp-lbl">Paste Secret Key JSONBin di sini:</div>
-    <input class="inp" id="inp-apikey" placeholder="$2b$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx..." maxlength="80">
-  </div>
-
-  <div class="setup-card">
-    <div class="setup-card-title"><div class="step-num">2</div> Buat Bin (tempat simpan data)</div>
-    <div class="step-row"><div class="step-txt">Klik tombol di bawah untuk membuat bin baru. Ini akan menjadi database bersama semua koordinator.</div></div>
-    <button class="btn-setup secondary" id="btn-create-bin" onclick="createBin()">&#9654; Buat Bin Sekarang</button>
-    <div class="test-result" id="bin-result"></div>
-    <div style="height:8px"></div>
-    <div class="inp-lbl">Atau masukkan Bin ID yang sudah ada:</div>
-    <input class="inp" id="inp-binid" placeholder="xxxxxxxxxxxxxxxxxxxxxxxx" maxlength="30" oninput="checkSetup()">
-  </div>
-
-  <div class="setup-card">
-    <div class="setup-card-title"><div class="step-num">3</div> Upload ke GitHub Pages</div>
-    <div class="step-row"><div class="step-txt">1. Buka <a href="https://github.com" target="_blank">github.com</a> &rarr; buat akun gratis &rarr; klik <b>+ New repository</b>.</div></div>
-    <div class="step-row"><div class="step-txt">2. Beri nama repo (contoh: <code>musda-ggbi</code>) &rarr; centang <b>Public</b> &rarr; klik <b>Create repository</b>.</div></div>
-    <div class="step-row"><div class="step-txt">3. Klik <b>Add file &rarr; Upload files</b> &rarr; upload file HTML ini &rarr; klik <b>Commit changes</b>.</div></div>
-    <div class="step-row"><div class="step-txt">4. Pergi ke <b>Settings &rarr; Pages</b> &rarr; di Source pilih <b>main</b> &rarr; klik <b>Save</b>.</div></div>
-    <div class="step-row"><div class="step-txt">5. Tunggu 1-2 menit &rarr; link GitHub Pages aktif (contoh: <code>namaanda.github.io/musda-ggbi</code>) &rarr; bagikan ke semua koordinator lewat WhatsApp!</div></div>
-  </div>
-
-  <div class="setup-card">
-    <div class="setup-card-title"><div class="step-num">4</div> Simpan konfigurasi &amp; mulai</div>
-    <button class="btn-setup" id="btn-save-setup" onclick="saveSetup()" disabled>Simpan &amp; Buka Aplikasi &#10140;</button>
-    <div class="test-result" id="setup-result"></div>
-    <hr class="divider" style="margin-top:12px">
-    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--txt2)">Sudah pernah setup? <span style="color:var(--txti);cursor:pointer;text-decoration:underline" onclick="skipSetup()">Lewati langkah ini</span></div>
-  </div>
-</div>
-</div>
-
-<!-- LOGIN SCREEN -->
-<div id="login-screen" style="display:none">
+<div id="login-screen">
   <div class="login-wrap">
     <div class="login-ico">&#9997;&#65039;</div>
-    <div class="login-title">Masuk sebagai Koordinator</div>
-    <div class="login-sub">Pilih seksi Anda. Progress akan tersinkron<br>real-time ke semua koordinator.</div>
+    <div class="login-title">Koordinator Musda GGBI</div>
+    <div class="login-sub">Pilih seksi Anda &amp; masukkan nama.<br>Progress langsung tersinkron ke semua koordinator.</div>
     <div class="sgrid" id="seksi-grid"></div>
-    <input class="ninp" id="ninp" placeholder="Nama koordinator Anda..." maxlength="30" oninput="chkLogin()">
-    <button class="btn-login" id="btn-login" onclick="doLogin()" disabled>Masuk &#10140;</button>
-    <div class="link-setup" onclick="showSetup()">&#9881; Ubah konfigurasi database</div>
+    <input class="ninp" id="ninp" placeholder="Nama Anda..." maxlength="30" oninput="chkLogin()">
+    <button class="btn-login" id="btnlogin" onclick="doLogin()" disabled>Masuk &#10140;</button>
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="main-screen" style="display:none">
   <div class="pages">
     <div class="page on" id="pg-home"><div id="hc"></div></div>
@@ -263,15 +155,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="nb on" onclick="nav('home',this)"><span class="nb-ico">&#127968;</span><span class="nb-lbl">Beranda</span></button>
     <button class="nb" onclick="nav('mine',this)"><span class="nb-ico">&#9989;</span><span class="nb-lbl">Seksi Saya</span></button>
     <button class="nb" onclick="nav('all',this)"><span class="nb-ico">&#128101;</span><span class="nb-lbl">Semua Seksi</span></button>
-    <button class="nb" onclick="nav('chat',this)"><span class="nb-ico">&#128172;</span><span class="nb-lbl">Chat <span id="cbadge" style="display:none;background:#e24b4a;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px"></span></span></button>
+    <button class="nb" onclick="nav('chat',this)"><span class="nb-ico">&#128172;</span><span class="nb-lbl">Chat<span id="cbadge" style="display:none;background:#e24b4a;color:#fff;border-radius:10px;padding:0 4px;font-size:9px;margin-left:2px"></span></span></button>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-database-compat.min.js"></script>
+
 <script>
-// ─── CONFIG ────────────────────────────────────────────────────
+// ── GANTI DENGAN KONFIGURASI FIREBASE ANDA ──────────────────────
+// Ikuti panduan di bawah untuk mendapatkan nilai ini (GRATIS)
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyALFggW4GzJHvncJJRoeLMJ4exb7ghGQbM",
+  authDomain: "musda-jatengbagut.firebaseapp.com",
+  databaseURL: "https://musda-jatengbagut-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "musda-jatengbagut",
+  storageBucket: "musda-jatengbagut.firebasestorage.app",
+  messagingSenderId: "815427801973",
+  appId: "1:815427801973:web:278d88b2578892cd4ef93c",
+};
+// ────────────────────────────────────────────────────────────────
+
 const SEKSI=[
   {id:'acara',name:'Acara & Persidangan',ico:'&#127909;',c:'#185FA5',li:'#E6F1FB',tasks:['Susun rundown detail menit per menit','Siapkan tata tertib & mekanisme sidang','Koordinasi pimpinan sidang & notulis','Gladi bersih seluruh susunan acara','Briefing panitia acara H-1','Pastikan semua sesi berjalan tepat waktu']},
   {id:'ibadah',name:'Ibadah & Rohani',ico:'&#128214;',c:'#534AB7',li:'#EEEDFE',tasks:['Koordinasi pendeta / pembicara firman','Susun liturgi ibadah pembukaan','Koordinasi tim musik & worship leader','Siapkan PPT, mic & perlengkapan ibadah','Gladi ibadah pembukaan & penutup','Siapkan doa berkat kepengurusan baru']},
@@ -282,291 +189,138 @@ const SEKSI=[
   {id:'keamanan',name:'Keamanan',ico:'&#128737;',c:'#5F5E5A',li:'#F1EFE8',tasks:['Koordinasi petugas keamanan (2 orang)','Siapkan sistem & area parkir kendaraan','Siapkan kotak P3K & obat-obatan','Briefing tim keamanan H-1','Atur akses masuk & keamanan aula','Pantau ketertiban selama Musda']},
 ];
 
-const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b';
-const LS_CFG = 'musda_cfg_v1';
-const LS_ME  = 'musda_me_v1';
+let ME=null,db=null,openSec={},curPage='home',lastChatLen=0;
 
-let CFG = {apiKey:'', binId:''};
-let ME = null;
-let openSec = {};
-let curPage = 'home';
-let lastData = null;
-let lastChatLen = 0;
-let pollTimer = null;
-let writing = false;
+// Init Firebase
+try{
+  firebase.initializeApp(FIREBASE_CONFIG);
+  db=firebase.database();
+}catch(e){console.error('Firebase init failed',e);}
 
-// ─── HELPERS ────────────────────────────────────────────────────
-function ts(){ return Date.now(); }
-function ago(t){
-  const d=Math.floor((ts()-t)/1000);
-  if(d<5) return 'baru saja';
-  if(d<60) return d+'d lalu';
-  if(d<3600) return Math.floor(d/60)+'m lalu';
-  if(d<86400) return Math.floor(d/3600)+'j lalu';
-  return Math.floor(d/86400)+'hr lalu';
-}
-function initials(n){ return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
-function toast(msg, dur=2000){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), dur);
-}
-function setSync(state, txt){
-  const d=document.getElementById('sdot');
-  const l=document.getElementById('slbl');
-  if(!d||!l) return;
-  d.className='sdot '+(state==='ok'?'ok':state==='err'?'':'spin');
-  l.textContent=txt;
-}
+function ts(){return Date.now();}
+function ago(t){const d=Math.floor((ts()-t)/1e3);if(d<5)return'baru saja';if(d<60)return d+'d lalu';if(d<3600)return Math.floor(d/60)+'m lalu';return Math.floor(d/3600)+'j lalu';}
+function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
+function getSeksi(id){return SEKSI.find(s=>s.id===id);}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+function setSync(s,txt){const d=document.getElementById('sdot');const l=document.getElementById('slbl');if(!d||!l)return;d.className='sdot '+(s==='ok'?'ok':s==='err'?'':'spin');l.textContent=txt;}
 
-// ─── JSONBIN API ─────────────────────────────────────────────────
-async function jbGet(){
-  const r = await fetch(`${JSONBIN_BASE}/${CFG.binId}/latest`,{
-    headers:{'X-Master-Key':CFG.apiKey,'X-Bin-Meta':'false'}
-  });
-  if(!r.ok) throw new Error('GET failed '+r.status);
-  return r.json();
-}
-async function jbPut(data){
-  const r = await fetch(`${JSONBIN_BASE}/${CFG.binId}`,{
-    method:'PUT',
-    headers:{'Content-Type':'application/json','X-Master-Key':CFG.apiKey,'X-Bin-Meta':'false'},
-    body: JSON.stringify(data)
-  });
-  if(!r.ok) throw new Error('PUT failed '+r.status);
-  return r.json();
-}
-async function jbCreate(apiKey){
-  const initial = {tasks:{},online:{},activity:[],chat:[]};
-  const r = await fetch(JSONBIN_BASE,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','X-Master-Key':apiKey,'X-Bin-Versioning':'false'},
-    body: JSON.stringify(initial)
-  });
-  if(!r.ok) throw new Error('Create failed '+r.status);
-  const j = await r.json();
-  return j.metadata?.id || j.id;
-}
-
-// ─── SETUP LOGIC ─────────────────────────────────────────────────
-async function createBin(){
-  const apiKey = document.getElementById('inp-apikey').value.trim();
-  if(!apiKey){ alert('Masukkan API Key terlebih dahulu.'); return; }
-  const btn = document.getElementById('btn-create-bin');
-  const res = document.getElementById('bin-result');
-  btn.disabled=true; btn.textContent='Membuat bin...';
-  try{
-    const binId = await jbCreate(apiKey);
-    document.getElementById('inp-binid').value = binId;
-    res.style.display='block'; res.className='test-result test-ok';
-    res.innerHTML='&#10003; Bin berhasil dibuat! Bin ID: <b>'+binId+'</b>';
-    checkSetup();
-  } catch(e){
-    res.style.display='block'; res.className='test-result test-err';
-    res.textContent='&#10007; Gagal: '+e.message+'. Pastikan API Key benar.';
-  }
-  btn.disabled=false; btn.textContent='&#9654; Buat Bin Sekarang';
-}
-
-function checkSetup(){
-  const k = document.getElementById('inp-apikey').value.trim();
-  const b = document.getElementById('inp-binid').value.trim();
-  document.getElementById('btn-save-setup').disabled = !(k && b.length >= 10);
-}
-document.getElementById('inp-apikey').addEventListener('input', checkSetup);
-
-async function saveSetup(){
-  const k = document.getElementById('inp-apikey').value.trim();
-  const b = document.getElementById('inp-binid').value.trim();
-  const res = document.getElementById('setup-result');
-  const btn = document.getElementById('btn-save-setup');
-  btn.disabled=true; btn.textContent='Menguji koneksi...';
-  try{
-    CFG = {apiKey:k, binId:b};
-    await jbGet();
-    localStorage.setItem(LS_CFG, JSON.stringify(CFG));
-    res.style.display='block'; res.className='test-result test-ok';
-    res.textContent='&#10003; Koneksi berhasil! Membuka aplikasi...';
-    setTimeout(showLogin, 800);
-  } catch(e){
-    res.style.display='block'; res.className='test-result test-err';
-    res.textContent='&#10007; Koneksi gagal: '+e.message+'. Periksa kembali API Key dan Bin ID.';
-    btn.disabled=false; btn.textContent='Simpan & Buka Aplikasi &#10140;';
-  }
-}
-
-function skipSetup(){
-  const saved = localStorage.getItem(LS_CFG);
-  if(saved){ CFG=JSON.parse(saved); showLogin(); }
-  else{ alert('Belum ada konfigurasi tersimpan. Silakan setup terlebih dahulu.'); }
-}
-
-function showSetup(){
-  document.getElementById('setup-screen').style.display='';
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('main-screen').style.display='none';
-  document.getElementById('topbar').style.display='none';
-  const saved = localStorage.getItem(LS_CFG);
-  if(saved){ const c=JSON.parse(saved); document.getElementById('inp-apikey').value=c.apiKey||''; document.getElementById('inp-binid').value=c.binId||''; checkSetup(); }
-}
-
-function showLogin(){
-  document.getElementById('setup-screen').style.display='none';
-  document.getElementById('login-screen').style.display='';
-  document.getElementById('main-screen').style.display='none';
-  document.getElementById('topbar').style.display='none';
-  buildSeksiGrid();
-  const savedMe = localStorage.getItem(LS_ME);
-  if(savedMe){ ME=JSON.parse(savedMe); startApp(); }
-}
-
-// ─── LOGIN ───────────────────────────────────────────────────────
-function buildSeksiGrid(){
-  document.getElementById('seksi-grid').innerHTML = SEKSI.map(s=>`
-    <div class="sp" data-id="${s.id}" data-c="${s.c}" onclick="pickSeksi(this)">
-      <div class="sp-ico">${s.ico}</div>
-      <div class="sp-name" style="color:${s.c}">${s.name}</div>
-    </div>`).join('');
-}
-
+// ── LOGIN ──────────────────────────────────────────────────────
 function pickSeksi(el){
   document.querySelectorAll('.sp').forEach(e=>{e.classList.remove('sel');e.style.borderColor='rgba(0,0,0,.1)';});
-  el.classList.add('sel'); el.style.borderColor=el.dataset.c;
-  chkLogin();
+  el.classList.add('sel');el.style.borderColor=el.dataset.c;chkLogin();
 }
 function chkLogin(){
   const sel=document.querySelector('.sp.sel');
   const n=document.getElementById('ninp').value.trim();
-  document.getElementById('btn-login').disabled=!(sel&&n.length>=2);
+  document.getElementById('btnlogin').disabled=!(sel&&n.length>=2);
 }
 function doLogin(){
   const sel=document.querySelector('.sp.sel');
   const n=document.getElementById('ninp').value.trim();
-  if(!sel||!n) return;
-  ME={uid:sel.dataset.id+'_'+ts(), name:n, seksiId:sel.dataset.id};
-  localStorage.setItem(LS_ME, JSON.stringify(ME));
+  if(!sel||!n)return;
+  ME={uid:sel.dataset.id+'_'+ts(),name:n,seksiId:sel.dataset.id};
+  localStorage.setItem('musda_me',JSON.stringify(ME));
   startApp();
 }
 
-// ─── APP ─────────────────────────────────────────────────────────
+// ── APP ────────────────────────────────────────────────────────
 function startApp(){
   document.getElementById('login-screen').style.display='none';
-  document.getElementById('setup-screen').style.display='none';
   document.getElementById('main-screen').style.display='';
   document.getElementById('topbar').style.display='';
   document.getElementById('cinp').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
-  poll();
-  pollTimer = setInterval(poll, 5000);
-  setInterval(heartbeat, 20000);
-}
 
-async function heartbeat(){
-  if(!ME||writing) return;
-  try{
-    const d = await jbGet();
-    d.online = d.online||{};
-    d.online[ME.uid] = {name:ME.name, seksi:ME.seksiId, color:getSeksi(ME.seksiId)?.c||'#888', ts:ts()};
-    await jbPut(d);
-  } catch(e){}
-}
+  if(!db){setSync('err','Offline mode');startOffline();return;}
 
-async function poll(){
-  try{
-    const d = await jbGet();
-    const sig = JSON.stringify(d);
-    setSync('ok', onlineList(d).length+' koordinator online');
-    if(sig !== JSON.stringify(lastData)){
-      lastData = d;
-      render(d);
-      if(curPage!=='chat'){
-        const nc=(d.chat||[]).length;
-        if(nc>lastChatLen){ const b=document.getElementById('cbadge'); b.style.display=''; b.textContent='+'+(nc-lastChatLen); }
-      }
+  // Heartbeat online
+  const onlineRef=db.ref('online/'+ME.uid);
+  onlineRef.set({name:ME.name,seksi:ME.seksiId,color:getSeksi(ME.seksiId)?.c||'#888',ts:ts()});
+  onlineRef.onDisconnect().remove();
+  setInterval(()=>onlineRef.update({ts:ts()}),20000);
+
+  // Listen realtime
+  db.ref('/').on('value',snap=>{
+    const d=snap.val()||{};
+    renderAll(d);
+    setSync('ok',Object.keys(d.online||{}).length+' online');
+    const nc=Object.keys(d.chat||{}).length;
+    if(curPage!=='chat'&&nc>lastChatLen){
+      const b=document.getElementById('cbadge');b.style.display='';b.textContent='+'+(nc-lastChatLen);
     }
-  } catch(e){ setSync('err','Gagal sinkron'); }
+  });
 }
 
-function getSeksi(id){ return SEKSI.find(s=>s.id===id); }
-function onlineList(d){ return Object.values(d.online||{}).filter(u=>(ts()-u.ts)<90000); }
+function startOffline(){
+  // Fallback localStorage
+  setInterval(()=>{
+    try{const d=JSON.parse(localStorage.getItem('musda_shared')||'{}');renderAll(d);}catch(e){}
+  },3000);
+}
 
 function calcPct(d,sid){
-  const s=getSeksi(sid); if(!s) return 0;
-  const done=s.tasks.filter((_,i)=>d.tasks&&d.tasks[sid+'_'+i]).length;
+  const s=getSeksi(sid);if(!s)return 0;
+  const done=s.tasks.filter((_,i)=>(d.tasks||{})[sid+'_'+i]).length;
   return Math.round(done/s.tasks.length*100);
 }
 function calcTotal(d){
-  const all=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!(d.tasks&&d.tasks[s.id+'_'+i])));
+  const all=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i])));
   return Math.round(all.filter(Boolean).length/all.length*100);
 }
+function onlineList(d){return Object.values(d.online||{}).filter(u=>(ts()-u.ts)<90000);}
 
 async function toggleTask(sid,idx){
-  if(!ME||ME.seksiId!==sid||writing) return;
-  writing=true; setSync('spin','Menyimpan...');
-  try{
-    const d=await jbGet();
-    const k=sid+'_'+idx;
-    d.tasks=d.tasks||{};
-    d.tasks[k]=!d.tasks[k];
-    const s=getSeksi(sid);
-    d.activity=d.activity||[];
-    d.activity.unshift({who:ME.name,seksi:s.name,c:s.c,txt:(d.tasks[k]?'Selesai: ':'Batal: ')+'"'+s.tasks[idx]+'"',ts:ts()});
-    if(d.activity.length>40) d.activity=d.activity.slice(0,40);
-    d.online=d.online||{};
-    d.online[ME.uid]={name:ME.name,seksi:ME.seksiId,color:s.c,ts:ts()};
-    await jbPut(d);
-    lastData=d; render(d);
-    setSync('ok','Tersimpan');
-    toast(d.tasks[k]?'&#10003; Task selesai!':'Task dibatalkan');
-  } catch(e){ toast('Gagal menyimpan. Coba lagi.'); setSync('err','Gagal'); }
-  writing=false;
+  if(!ME||ME.seksiId!==sid)return;
+  const key=sid+'_'+idx;
+  const s=getSeksi(sid);
+  if(db){
+    const ref=db.ref('tasks/'+key);
+    const snap=await ref.get();
+    const cur=snap.val()||false;
+    await ref.set(!cur);
+    await db.ref('activity').push({who:ME.name,seksi:s.name,c:s.c,txt:(!cur?'Selesai: ':'Batal: ')+'"'+s.tasks[idx]+'"',ts:ts()});
+    showToast(!cur?'✓ Task selesai!':'Task dibatalkan');
+  }
 }
 
 async function sendChat(){
   const inp=document.getElementById('cinp');
-  const msg=inp.value.trim(); if(!msg||!ME||writing) return;
-  inp.value=''; writing=true;
-  try{
-    const d=await jbGet();
-    d.chat=d.chat||[];
-    d.chat.push({uid:ME.uid,name:ME.name,seksi:ME.seksiId,c:getSeksi(ME.seksiId)?.c||'#888',msg,ts:ts()});
-    if(d.chat.length>80) d.chat=d.chat.slice(-80);
-    await jbPut(d);
-    lastData=d; render(d);
-  } catch(e){ toast('Pesan gagal terkirim.'); }
-  writing=false;
+  const msg=inp.value.trim();if(!msg||!ME)return;
+  inp.value='';
+  if(db){
+    await db.ref('chat').push({uid:ME.uid,name:ME.name,seksi:ME.seksiId,c:getSeksi(ME.seksiId)?.c||'#888',msg,ts:ts()});
+  }
 }
 
-// ─── NAV ─────────────────────────────────────────────────────────
 function nav(page,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
   document.getElementById('pg-'+page).classList.add('on');
-  if(btn) btn.classList.add('on');
+  if(btn)btn.classList.add('on');
   curPage=page;
-  if(page==='chat'){ document.getElementById('cbadge').style.display='none'; lastChatLen=(lastData?.chat||[]).length; }
-  if(lastData) render(lastData);
+  if(page==='chat'){document.getElementById('cbadge').style.display='none';lastChatLen=0;}
 }
-function toggleSection(id){ openSec[id]=openSec[id]===false; if(lastData) renderAll(lastData); }
+function toggleSection(id){openSec[id]=openSec[id]===false;} 
 
-// ─── RENDER ──────────────────────────────────────────────────────
-function render(d){
+function renderAll(d){
   const pct=calcTotal(d);
   document.getElementById('tpfill').style.width=pct+'%';
   document.getElementById('tpct').textContent=pct+'%';
-  if(curPage==='home') renderHome(d);
-  else if(curPage==='mine') renderMine(d);
-  else if(curPage==='all') renderAll(d);
-  else if(curPage==='chat') renderChat(d);
+  if(curPage==='home')renderHome(d);
+  else if(curPage==='mine')renderMine(d);
+  else if(curPage==='all')renderAllSeksi(d);
+  else if(curPage==='chat')renderChat(d);
 }
 
 function renderHome(d){
   const ol=onlineList(d);
   const pct=calcTotal(d);
-  const done=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!(d.tasks&&d.tasks[s.id+'_'+i]))).filter(Boolean).length;
+  const done=SEKSI.flatMap(s=>s.tasks.map((_,i)=>!!((d.tasks||{})[s.id+'_'+i]))).filter(Boolean).length;
   const total=SEKSI.reduce((a,s)=>a+s.tasks.length,0);
   const days=Math.max(0,Math.ceil((new Date('2025-06-08')-new Date())/864e5));
 
   let h='<div style="height:8px"></div>';
+  h+=`<div class="cd-bar"><div><div class="cd-l">Hari pelaksanaan</div><div class="cd-date">Sabtu, 8 Juni 2025</div></div><div style="text-align:right"><div class="cd-num">${days}</div><div class="cd-unit">hari lagi</div></div></div>`;
+  h+=`<div class="theme-chip">&#9997;&#65039; "Menuntaskan Tugas Pelayanan dengan Setia dan Tanggung Jawab" &mdash; 1 Kor 4:2</div>`;
   h+=`<div class="sgrid2">
     <div class="sc"><div class="sl">Progress total</div><div class="sn">${pct}%</div><div class="ss">semua seksi</div></div>
     <div class="sc"><div class="sl">Task selesai</div><div class="sn">${done}</div><div class="ss">dari ${total} task</div></div>
@@ -575,53 +329,48 @@ function renderHome(d){
   </div>`;
 
   if(ol.length>0){
-    h+=`<div class="sec-lbl">KOORDINATOR AKTIF SEKARANG</div><div style="padding:2px 0 8px;display:flex;flex-wrap:wrap">`;
-    ol.forEach(u=>{ h+=`<div class="opill"><div class="opip" style="background:${u.color}"></div>${u.name}${u.id===ME?.uid?'<span class="mybadge">Saya</span>':''}</div>`; });
+    h+=`<div class="sec-lbl">AKTIF SEKARANG</div><div style="padding:2px 0 8px;display:flex;flex-wrap:wrap">`;
+    ol.forEach(u=>{h+=`<div class="opill"><div class="opip" style="background:${u.color}"></div>${u.name}${u.uid===ME?.uid?'<span class="mybadge">Saya</span>':''}</div>`;});
     h+=`</div>`;
   }
 
   h+=`<div class="sec-lbl">PROGRESS SEMUA SEKSI</div>`;
   SEKSI.forEach(s=>{
     const p=calcPct(d,s.id);
-    const dn=s.tasks.filter((_,i)=>d.tasks&&d.tasks[s.id+'_'+i]).length;
-    h+=`<div class="card" style="margin-bottom:6px">
-      <div class="card-head" style="cursor:default;padding:9px 12px">
-        <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
-          <div><div class="ch-name">${s.name}</div><div class="ch-sub">${dn}/${s.tasks.length} task selesai</div></div>
-        </div>
-        <div class="ch-r">
-          <span class="pct-sm" style="color:${s.c}">${p}%</span>
-          <div class="mbar"><div class="mfill" style="width:${p}%;background:${s.c}"></div></div>
-        </div>
+    const dn=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]).length;
+    h+=`<div class="card" style="margin-bottom:6px"><div class="card-head" style="cursor:default;padding:9px 12px">
+      <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
+        <div><div class="ch-name">${s.name}</div><div class="ch-sub">${dn}/${s.tasks.length} selesai</div></div>
       </div>
-    </div>`;
+      <div class="ch-r"><span class="pct-sm" style="color:${s.c}">${p}%</span>
+        <div class="mbar"><div class="mfill" style="width:${p}%;background:${s.c}"></div></div>
+      </div></div></div>`;
   });
 
-  const acts=(d.activity||[]).slice(0,6);
+  const acts=Object.values(d.activity||{}).sort((a,b)=>b.ts-a.ts).slice(0,6);
   if(acts.length>0){
     h+=`<div class="sec-lbl" style="margin-top:4px">AKTIVITAS TERKINI</div><div class="card"><div>`;
-    acts.forEach(a=>{ h+=`<div class="fi"><div class="fdot" style="background:${a.c}"></div><div><div class="fwho">${a.who} <span style="font-weight:400;color:var(--txt2)">(${a.seksi})</span></div><div class="ftxt">${a.txt}</div><div class="ftime">${ago(a.ts)}</div></div></div>`; });
+    acts.forEach(a=>{h+=`<div class="fi"><div class="fdot" style="background:${a.c}"></div><div><div class="fwho">${a.who} <span style="font-weight:400;color:#555">(${a.seksi})</span></div><div class="ftxt">${a.txt}</div><div class="ftime">${ago(a.ts)}</div></div></div>`;});
     h+=`</div></div>`;
   }
   document.getElementById('hc').innerHTML=h;
 }
 
 function renderMine(d){
-  if(!ME) return;
-  const s=getSeksi(ME.seksiId); if(!s) return;
+  if(!ME)return;
+  const s=getSeksi(ME.seksiId);if(!s)return;
   const pct=calcPct(d,s.id);
-  const done=s.tasks.filter((_,i)=>d.tasks&&d.tasks[s.id+'_'+i]).length;
+  const done=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]).length;
   let h=`<div class="hero" style="background:${s.c}">
-    <div class="hero-lbl">Seksi saya</div>
-    <div class="hero-name">${s.name}</div>
+    <div class="hero-lbl">Seksi saya</div><div class="hero-name">${s.name}</div>
     <div class="hero-pct">${pct}%</div>
     <div class="hero-bar"><div class="hero-bfill" style="width:${pct}%"></div></div>
-    <div class="hero-info">${done} dari ${s.tasks.length} task selesai &bull; ${ME.name}</div>
+    <div class="hero-info">${done}/${s.tasks.length} task selesai &bull; ${ME.name}</div>
   </div>
-  <div class="sec-lbl">TASK SEKSI SAYA &mdash; ketuk untuk update status</div>
+  <div class="sec-lbl">TASK SEKSI SAYA &mdash; ketuk untuk update</div>
   <div class="card"><div class="tl">`;
   s.tasks.forEach((t,i)=>{
-    const dn=!!(d.tasks&&d.tasks[s.id+'_'+i]);
+    const dn=!!((d.tasks||{})[s.id+'_'+i]);
     h+=`<div class="tr can" onclick="toggleTask('${s.id}',${i})">
       <div class="chk ${dn?'done':''}">${dn?'&#10003;':''}</div>
       <div style="flex:1"><div class="ttxt ${dn?'done':''}">${t}</div>
@@ -632,21 +381,20 @@ function renderMine(d){
   document.getElementById('mc').innerHTML=h;
 }
 
-function renderAll(d){
+function renderAllSeksi(d){
   let h='';
   SEKSI.forEach(s=>{
     const pct=calcPct(d,s.id);
     const mine=ME&&ME.seksiId===s.id;
     const isOpen=openSec[s.id]!==false;
-    const done=s.tasks.filter((_,i)=>d.tasks&&d.tasks[s.id+'_'+i]).length;
+    const done=s.tasks.filter((_,i)=>(d.tasks||{})[s.id+'_'+i]).length;
     h+=`<div class="card">
-      <div class="card-head" onclick="toggleSection('${s.id}')">
+      <div class="card-head" onclick="toggleSection('${s.id}');renderAllSeksi(window.__lastD||{})">
         <div class="ch-l"><div class="ch-dot" style="background:${s.c}"></div>
-          <div><div class="ch-name">${s.name}${mine?'<span class="mybadge" style="font-size:9px;background:#eff6ff;color:#1a56d6;padding:1px 5px;border-radius:10px;margin-left:4px">Saya</span>':''}</div>
-          <div class="ch-sub">${done}/${s.tasks.length} task selesai</div></div>
+          <div><div class="ch-name">${s.name}${mine?'<span class="mybadge">Saya</span>':''}</div>
+          <div class="ch-sub">${done}/${s.tasks.length} selesai</div></div>
         </div>
-        <div class="ch-r">
-          <span class="pct-sm" style="color:${s.c}">${pct}%</span>
+        <div class="ch-r"><span class="pct-sm" style="color:${s.c}">${pct}%</span>
           <div class="mbar"><div class="mfill" style="width:${pct}%;background:${s.c}"></div></div>
           <span class="chev ${isOpen?'op':''}">&#9654;</span>
         </div>
@@ -654,46 +402,48 @@ function renderAll(d){
     if(isOpen){
       h+=`<div class="tl">`;
       s.tasks.forEach((t,i)=>{
-        const dn=!!(d.tasks&&d.tasks[s.id+'_'+i]);
-        h+=`<div class="tr ${mine?'can':''}" ${mine?`onclick="toggleTask('${s.id}',${i})"`:''}>
-          <div class="chk ${dn?(mine?'done':'rdone'):''}">${dn?'&#10003;':''}</div>
+        const dn=!!((d.tasks||{})[s.id+'_'+i]);
+        h+=`<div class="tr ${mine?'can':''}" ${mine?`onclick="toggleTask('${s.id}',${i})"`:''}> 
+          <div class="chk ${dn?(mine?'done':'odone'):''}">${dn?'&#10003;':''}</div>
           <div style="flex:1"><div class="ttxt ${dn?'done':''}">${t}</div>
           ${!mine?`<div class="tlock">Hanya koordinator ${s.name}</div>`:''}
-          </div>
-        </div>`;
+          </div></div>`;
       });
       h+=`</div>`;
     }
     h+=`</div>`;
   });
+  window.__lastD=d;
   document.getElementById('ac').innerHTML=h;
 }
 
 function renderChat(d){
-  const msgs=d.chat||[];
+  const msgs=Object.values(d.chat||{}).sort((a,b)=>a.ts-b.ts);
   const el=document.getElementById('chatlist');
-  if(msgs.length===0){ el.innerHTML='<div class="empty">Belum ada pesan. Mulai diskusi dengan koordinator lain!</div>'; return; }
+  if(msgs.length===0){el.innerHTML='<div class="empty">Belum ada pesan. Mulai diskusi!</div>';return;}
   let h='<div style="height:8px"></div>';
   msgs.forEach(m=>{
     const mine=ME&&m.uid===ME.uid;
     h+=`<div class="mr ${mine?'me':''}">
       <div class="mav" style="background:${m.c}">${initials(m.name)}</div>
-      <div>
-        <div class="mb ${mine?'mine':'other'}">${m.msg}</div>
-        <div class="mwho ${mine?'me-who':''}">${m.name} &bull; ${ago(m.ts)}</div>
-      </div>
+      <div><div class="mb ${mine?'mine':'other'}">${m.msg}</div>
+      <div class="mwho ${mine?'me-who':''}">${m.name} &bull; ${ago(m.ts)}</div></div>
     </div>`;
   });
-  el.innerHTML=h; el.scrollTop=el.scrollHeight;
+  el.innerHTML=h;el.scrollTop=el.scrollHeight;
   lastChatLen=msgs.length;
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────
-(function init(){
-  const saved=localStorage.getItem(LS_CFG);
-  if(saved){ CFG=JSON.parse(saved); showLogin(); }
-  else{ showSetup(); }
-})();
+// Init
+document.getElementById('seksi-grid').innerHTML=SEKSI.map(s=>`
+  <div class="sp" data-id="${s.id}" data-c="${s.c}" onclick="pickSeksi(this)">
+    <div class="sp-ico">${s.ico}</div>
+    <div class="sp-name" style="color:${s.c}">${s.name}</div>
+  </div>`).join('');
+
+const savedMe=localStorage.getItem('musda_me');
+if(savedMe){ME=JSON.parse(savedMe);startApp();}
+else{document.getElementById('login-screen').style.display='';}
 </script>
 </body>
 </html>
